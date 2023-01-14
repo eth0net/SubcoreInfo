@@ -10,6 +10,7 @@
     <RootNamespace>NamedSubcores</RootNamespace>
     <AssemblyName>NamedSubcores</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <LangVersion>preview</LangVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -57,9 +58,13 @@
     <Compile Include="NamedSubcoreComp.cs" />
     <Compile Include="NamedSubcores.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="NamedSubcoreScannerComp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Harmony\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

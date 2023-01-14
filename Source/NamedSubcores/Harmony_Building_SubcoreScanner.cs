@@ -1,73 +1,102 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HarmonyLib;
+﻿using HarmonyLib;
 using RimWorld;
-using UnityEngine.Assertions.Must;
 using Verse;
 
 namespace NamedSubcores
 {
-    [StaticConstructorOnStartup]
-    static class HarmonyPatches
+    /// <summary>
+    /// Harmony_Building_SubcoreScanner_EjectContents patches subcore scanners to use our component during ejects.
+    /// </summary>
+    [HarmonyPatch(typeof(Building_SubcoreScanner), "EjectContents")]
+    internal static class Harmony_Building_SubcoreScanner_EjectContents
     {
-        static HarmonyPatches()
+        /// <summary>
+        /// Postfix patches subcore scanners to update our component after ejecting their contents.
+        /// </summary>
+        /// <param name="__instance"></param>
+        internal static void Postfix(Building_SubcoreScanner __instance)
         {
-            var harmony = new Harmony("eth0net.NamedSubcores.harmony");
-            harmony.PatchAll();
+            __instance.GetComp<NamedSubcoreScannerComp>().Ejected = true;
+        }
+    }
+
+    /// <summary>
+    /// Harmony_Building_SubcoreScanner_Tick patches subcore scanners to use our component during ticks.
+    /// </summary>
+    [HarmonyPatch(typeof(Building_SubcoreScanner), "Tick")]
+    internal static class Harmony_Building_SubcoreScanner_Tick
+    {
+        /// <summary>
+        /// Prefix stores the name of the current occupant for later use
+        /// </summary>
+        /// <param name="__instance"></param>
+        internal static void Prefix(Building_SubcoreScanner __instance)
+        {
+            NamedSubcoreScannerComp scannerComp = __instance.GetComp<NamedSubcoreScannerComp>();
+            scannerComp.PawnName = __instance?.Occupant?.Name ?? null;
         }
 
-        static bool ejected = false;
-
-        [HarmonyPatch(typeof(Building_SubcoreScanner), "EjectContents")]
-        internal class Harmony_Building_SubcoreScanner_EjectContents
+        /// <summary>
+        /// Postfix attempts to name the subcore if one was just ejected by the scanner
+        /// </summary>
+        /// <param name="__instance"></param>
+        internal static void Postfix(Building_SubcoreScanner __instance)
         {
-            internal static void Postfix()
+            NamedSubcoreScannerComp scannerComp = __instance.GetComp<NamedSubcoreScannerComp>();
+            if (scannerComp.Ejected)
             {
-                Log.Message("Ejected, looking for subcore");
-                ejected = true;
-            }
-        }
-
-        [HarmonyPatch(typeof(Building_SubcoreScanner), "Tick")]
-        internal class Harmony_Building_SubcoreScanner_Tick
-        {
-            internal static Name pawnName;
-
-            // Store the name of the scanned pawn
-            internal static void Prefix(Building_SubcoreScanner __instance)
-            {
-                pawnName = __instance?.Occupant?.Name ?? null;
-            }
-
-            // Try to track down the new subcore, then store the pawn name
-            internal static void Postfix(Building_SubcoreScanner __instance)
-            {
-                if (pawnName != null && ejected)
+                NamedSubcoreComp subcoreComp = TryGetSubcoreComp(__instance);
+                if (subcoreComp != null)
                 {
-                    List<IntVec3> cells = __instance.InteractionCells;
-                    cells.ForEach(cell =>
+                    subcoreComp.PawnName = scannerComp.PawnName;
+                    scannerComp.PawnName = null;
+                }
+                scannerComp.Ejected = false;
+            }
+        }
+
+        /// <summary>
+        /// Try to find the subcore ejected from the scanner and return the component for it
+        /// </summary>
+        /// <param name="scanner"></param>
+        /// <returns></returns>
+        static NamedSubcoreComp TryGetSubcoreComp(Building_SubcoreScanner scanner)
+        {
+            string subcoreDefName = scanner.def.defName switch
+            {
+                "SubcoreSoftscanner" => "SubcoreRegular",
+                "SubcoreRipscanner" => "SubcoreHigh",
+                _ => null
+            };
+
+            Log.Warning("Scanner Def Name: "+scanner.def.defName);
+            Log.Warning("Subcore Def Name: "+subcoreDefName);
+
+            if (subcoreDefName != null)
+            {
+                // bad cell
+
+
+                foreach (IntVec3 cell in scanner.InteractionCells)
+                {
+                    foreach (Thing thing in cell.GetThingList(scanner.Map))
                     {
-                        List<Thing> things = cell.GetThingList(__instance.Map);
-                        things.ForEach(thing =>
+                        if (thing.def.defName == subcoreDefName)
                         {
-                            if ((thing.def.defName == "SubcoreRegular" && __instance.def.defName == "SubcoreSoftscanner") || (thing.def.defName == "SubcoreHigh" && __instance.def.defName == "SubcoreRipscanner"))
+                            Log.Message("Found matching subcore");
+                            NamedSubcoreComp comp = thing.TryGetComp<NamedSubcoreComp>();
+                            Log.Message("Got subcore comp");
+                            if (comp != null && comp.PawnName == null)
                             {
-                                NamedSubcoreComp comp = thing.TryGetComp<NamedSubcoreComp>();
-                                if (comp != null && comp.PawnName == null)
-                                {
-                                    comp.PawnName = pawnName;
-                                    pawnName = null;
-                                    ejected = false;
-                                    return;
-                                }
+                                Log.Message("Returning comp: " + comp);
+                                return comp;
                             }
-                        });
-                    });
+                        }
+                    }
                 }
             }
+            Log.Error("No comp");
+            return null;
         }
     }
 }
