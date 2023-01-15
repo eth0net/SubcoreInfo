@@ -1,20 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HarmonyLib;
+﻿using HarmonyLib;
 using RimWorld;
+using System;
+using System.Linq;
 using Verse;
 
 namespace NamedSubcores
 {
     internal class Harmony_Building_MechGestator
     {
-        // Building_MechGestator.Notify_AllGestationCyclesCompleted
-        // prefix: grab subcore comp from innercontainer
-        // postfix: assign comp to pawn
-
         /// <summary>
         /// Harmony_Building_MechGestator_Notify_AllGestationCyclesCompleted patches mech gestators to use our component on completion.
         /// </summary>
