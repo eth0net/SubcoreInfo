@@ -27,7 +27,7 @@ namespace NamedSubcores
         /// <returns></returns>
         public override string CompInspectStringExtra()
         {
-            return OccupantName != null ? "Subcore occupant: " + OccupantName.ToStringShort : null;
+            return OccupantName != null ? "Occupant: " + OccupantName.ToStringShort : null;
         }
     }
 }
