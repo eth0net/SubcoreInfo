@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"
+    Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -54,16 +55,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Harmony_Building_SubcoreScanner.cs" />
-    <Compile Include="NamedSubcoreComp.cs" />
     <Compile Include="NamedSubcores.cs" />
+    <Compile Include="Comps\NamedSubcoreComp.cs" />
+    <Compile Include="Comps\NamedSubcoreScannerComp.cs" />
+    <Compile Include="Harmony\Harmony_Building_SubcoreScanner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NamedSubcoreScannerComp.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Comps\" />
     <Folder Include="Harmony\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

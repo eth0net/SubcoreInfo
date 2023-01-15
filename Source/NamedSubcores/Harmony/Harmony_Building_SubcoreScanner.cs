@@ -1,7 +1,5 @@
 ﻿using HarmonyLib;
 using RimWorld;
-using System;
-using System.Xml.XPath;
 using Verse;
 
 namespace NamedSubcores
@@ -83,7 +81,7 @@ namespace NamedSubcores
 
                 return subcore?.TryGetComp<NamedSubcoreComp>() ?? null;
             }
-            
+
             return null;
         }
     }
