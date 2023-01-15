@@ -21,5 +21,30 @@ namespace NamedSubcores
             Scribe_Deep.Look(ref PawnName, "pawnName");
             base.PostExposeData();
         }
+
+        /// <summary>
+        /// GetDescriptionPart adds to the item description.
+        /// </summary>
+        /// <returns></returns>
+        public override string GetDescriptionPart()
+        {
+            string adjective = parent.def.defName switch
+            {
+                "SubcoreRegular" => "softscanned",
+                "SubcoreHigh" => "ripscanned",
+                _ => "scanned"
+            };
+
+            return "This subcore was " + adjective + " from " + PawnName;
+        }
+
+        /// <summary>
+        /// CompInspectStringExtra adds to the item inspection pane.
+        /// </summary>
+        /// <returns></returns>
+        public override string CompInspectStringExtra()
+        {
+            return "Pawn: " + PawnName;
+        }
     }
 }
