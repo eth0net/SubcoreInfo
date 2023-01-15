@@ -28,7 +28,7 @@ namespace NamedSubcores
         /// <returns></returns>
         public override string CompInspectStringExtra()
         {
-            return "Occupant: " + OccupantName.ToStringShort;
+            return "Occupant: " + OccupantName != null ? OccupantName.ToStringShort : "Unknown";
         }
     }
 }
