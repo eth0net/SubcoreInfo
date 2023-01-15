@@ -31,10 +31,10 @@ namespace NamedSubcores
                 Thing subcore = __instance.innerContainer.FirstOrDefault(hasNamedSubcoreComp);
                 if (subcore == null) { return; }
 
-                NamedMechGestatorComp gestatorComp = __instance.GetComp<NamedMechGestatorComp>() ?? null;
+                NamedMechGestatorComp gestatorComp = __instance.GetComp<NamedMechGestatorComp>();
                 if (gestatorComp == null) { return; }
 
-                gestatorComp.SubcoreOccupantName = subcore.TryGetComp<NamedSubcoreComp>().OccupantName;
+                gestatorComp.SubcoreOccupantName = subcore.TryGetComp<NamedSubcoreComp>()?.OccupantName;
             }
 
             /// <summary>
@@ -43,7 +43,7 @@ namespace NamedSubcores
             /// <param name="__instance"></param>
             internal static void Postfix(Building_MechGestator __instance)
             {
-                NamedMechGestatorComp gestatorComp = __instance.GetComp<NamedMechGestatorComp>() ?? null;
+                NamedMechGestatorComp gestatorComp = __instance.GetComp<NamedMechGestatorComp>();
                 if (gestatorComp == null) { return; }
 
                 NamedMechComp mechComp = __instance.GestatingMech.GetComp<NamedMechComp>();

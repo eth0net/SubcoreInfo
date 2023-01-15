@@ -74,7 +74,8 @@ namespace NamedSubcores
                 static bool validator(Thing subcore)
                 {
                     NamedSubcoreComp comp = subcore.TryGetComp<NamedSubcoreComp>();
-                    return comp != null && comp.OccupantName == null;
+                    if (comp == null) { return false; }
+                    return comp.OccupantName == null;
                 }
 
                 Thing subcore = GenClosest.ClosestThingReachable(scanner.InteractionCell, scanner.Map, ThingRequest.ForDef(subcoreDef), Verse.AI.PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.ByPawn), 9999, validator);

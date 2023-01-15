@@ -11,7 +11,7 @@ namespace NamedSubcores
         /// <summary>
         /// OccupantName tracks the name of the pawn scanned into the subcore.
         /// </summary>
-        public Name OccupantName;
+        public Name OccupantName = null;
 
         /// <summary>
         /// PostExposeData is used to save our component state.
@@ -28,7 +28,7 @@ namespace NamedSubcores
         /// <returns></returns>
         public override string CompInspectStringExtra()
         {
-            return "Occupant: " + OccupantName != null ? OccupantName.ToStringShort : "Unknown";
+            return "Occupant".Translate() + ": " + (OccupantName?.ToStringShort ?? "Unknown".Translate());
         }
     }
 }
