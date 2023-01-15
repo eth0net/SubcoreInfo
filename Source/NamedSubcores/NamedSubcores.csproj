@@ -56,17 +56,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="NamedSubcores.cs" />
+    <Compile Include="Comps\NamedMechComp.cs" />
+    <Compile Include="Comps\NamedMechGestatorComp.cs" />
     <Compile Include="Comps\NamedSubcoreComp.cs" />
     <Compile Include="Comps\NamedSubcoreScannerComp.cs" />
+    <Compile Include="Harmony\Harmony_Building_MechGestator.cs" />
     <Compile Include="Harmony\Harmony_Building_SubcoreScanner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Comps\" />
-    <Folder Include="Harmony\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

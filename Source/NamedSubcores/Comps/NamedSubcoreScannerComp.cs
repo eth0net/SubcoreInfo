@@ -14,9 +14,9 @@ namespace NamedSubcores
         public bool Ejected = false;
 
         /// <summary>
-        /// Occupant tracks the name of the pawn in the scanner.
+        /// OccupantName tracks the name of the pawn in the scanner.
         /// </summary>
-        public Name PawnName;
+        public Name OccupantName;
 
         /// <summary>
         /// PostExposeData is used to save our component state.
@@ -24,7 +24,7 @@ namespace NamedSubcores
         public override void PostExposeData()
         {
             Scribe_Values.Look(ref Ejected, "ejected");
-            Scribe_Deep.Look(ref PawnName, "pawnName");
+            Scribe_Deep.Look(ref OccupantName, "occupantName");
             base.PostExposeData();
         }
     }

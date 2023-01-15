@@ -3,13 +3,12 @@
 namespace NamedSubcores
 {
     /// <summary>
-    /// NamedSubcoreComp is added to SubcoreRegular and SubcoreHigh,
-    /// allowing us to track the pawn that was scanned into the subcore.
+    /// NamedMechComp is added to mech pawns, allowing us to track the pawn that was scanned into the subcore.
     /// </summary>
-    public class NamedSubcoreComp : ThingComp
+    public class NamedMechComp : ThingComp
     {
         /// <summary>
-        /// OccupantName tracks the name of the pawn scanned into the subcore.
+        /// OccupantName tracks the name of the pawn scanned into the mech's subcore.
         /// </summary>
         public Name OccupantName;
 
@@ -28,7 +27,7 @@ namespace NamedSubcores
         /// <returns></returns>
         public override string CompInspectStringExtra()
         {
-            return "OccupantName: " + OccupantName.ToStringShort;
+            return OccupantName != null ? "Subcore occupant: " + OccupantName.ToStringShort : null;
         }
     }
 }

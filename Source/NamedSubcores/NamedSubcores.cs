@@ -4,13 +4,13 @@ using Verse;
 namespace NamedSubcores
 {
     /// <summary>
-    /// NamedSubcores static class to load up the mod and initialise everything
+    /// NamedSubcores static class to load up the mod and initialise everything.
     /// </summary>
     [StaticConstructorOnStartup]
     public static class NamedSubcores
     {
         /// <summary>
-        /// NamedSubcores constructor to patch things using harmony
+        /// NamedSubcores constructor to patch things using harmony.
         /// </summary>
         static NamedSubcores()
         {

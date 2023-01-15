@@ -33,7 +33,7 @@ namespace NamedSubcores
         internal static void Prefix(Building_SubcoreScanner __instance)
         {
             NamedSubcoreScannerComp scannerComp = __instance.GetComp<NamedSubcoreScannerComp>();
-            scannerComp.PawnName = __instance?.Occupant?.Name ?? null;
+            scannerComp.OccupantName = __instance?.Occupant?.Name ?? null;
         }
 
         /// <summary>
@@ -48,8 +48,8 @@ namespace NamedSubcores
                 NamedSubcoreComp subcoreComp = TryGetSubcoreComp(__instance);
                 if (subcoreComp != null)
                 {
-                    subcoreComp.PawnName = scannerComp.PawnName;
-                    scannerComp.PawnName = null;
+                    subcoreComp.OccupantName = scannerComp.OccupantName;
+                    scannerComp.OccupantName = null;
                 }
                 scannerComp.Ejected = false;
             }
@@ -74,7 +74,7 @@ namespace NamedSubcores
                 static bool validator(Thing subcore)
                 {
                     NamedSubcoreComp comp = subcore.TryGetComp<NamedSubcoreComp>();
-                    return comp != null && comp.PawnName == null;
+                    return comp != null && comp.OccupantName == null;
                 }
 
                 Thing subcore = GenClosest.ClosestThingReachable(scanner.InteractionCell, scanner.Map, ThingRequest.ForDef(subcoreDef), Verse.AI.PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.ByPawn), 9999, validator);
