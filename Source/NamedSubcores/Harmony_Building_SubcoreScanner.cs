@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using System;
+using System.Xml.XPath;
 using Verse;
 
 namespace NamedSubcores
@@ -62,40 +64,26 @@ namespace NamedSubcores
         /// <returns></returns>
         static NamedSubcoreComp TryGetSubcoreComp(Building_SubcoreScanner scanner)
         {
-            string subcoreDefName = scanner.def.defName switch
+            ThingDef subcoreDef = scanner.def.defName switch
             {
-                "SubcoreSoftscanner" => "SubcoreRegular",
-                "SubcoreRipscanner" => "SubcoreHigh",
+                "SubcoreSoftscanner" => ThingDef.Named("SubcoreRegular"),
+                "SubcoreRipscanner" => ThingDef.Named("SubcoreHigh"),
                 _ => null
             };
 
-            Log.Warning("Scanner Def Name: "+scanner.def.defName);
-            Log.Warning("Subcore Def Name: "+subcoreDefName);
-
-            if (subcoreDefName != null)
+            if (subcoreDef != null)
             {
-                // bad cell
-
-
-                foreach (IntVec3 cell in scanner.InteractionCells)
+                static bool validator(Thing subcore)
                 {
-                    foreach (Thing thing in cell.GetThingList(scanner.Map))
-                    {
-                        if (thing.def.defName == subcoreDefName)
-                        {
-                            Log.Message("Found matching subcore");
-                            NamedSubcoreComp comp = thing.TryGetComp<NamedSubcoreComp>();
-                            Log.Message("Got subcore comp");
-                            if (comp != null && comp.PawnName == null)
-                            {
-                                Log.Message("Returning comp: " + comp);
-                                return comp;
-                            }
-                        }
-                    }
+                    NamedSubcoreComp comp = subcore.TryGetComp<NamedSubcoreComp>();
+                    return comp != null && comp.PawnName == null;
                 }
+
+                Thing subcore = GenClosest.ClosestThingReachable(scanner.InteractionCell, scanner.Map, ThingRequest.ForDef(subcoreDef), Verse.AI.PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.ByPawn), 9999, validator);
+
+                return subcore?.TryGetComp<NamedSubcoreComp>() ?? null;
             }
-            Log.Error("No comp");
+            
             return null;
         }
     }
