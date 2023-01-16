@@ -16,7 +16,7 @@ namespace NamedSubcores
         /// <param name="__instance"></param>
         internal static void Postfix(Building_SubcoreScanner __instance)
         {
-            __instance.GetComp<NamedSubcoreScannerComp>().Ejected = true;
+            __instance.GetComp<SubcoreScannerComp>().Ejected = true;
         }
     }
 
@@ -27,40 +27,39 @@ namespace NamedSubcores
     internal static class Harmony_Building_SubcoreScanner_Tick
     {
         /// <summary>
-        /// Prefix stores the name of the current occupant for later use
+        /// Prefix stores the name of the current occupant for later use.
         /// </summary>
         /// <param name="__instance"></param>
         internal static void Prefix(Building_SubcoreScanner __instance)
         {
-            NamedSubcoreScannerComp scannerComp = __instance.GetComp<NamedSubcoreScannerComp>();
+            SubcoreScannerComp scannerComp = __instance.GetComp<SubcoreScannerComp>();
             scannerComp.OccupantName = __instance?.Occupant?.Name ?? null;
         }
 
         /// <summary>
-        /// Postfix attempts to name the subcore if one was just ejected by the scanner
+        /// Postfix attempts to update the subcore if one was just ejected by the scanner.
         /// </summary>
         /// <param name="__instance"></param>
         internal static void Postfix(Building_SubcoreScanner __instance)
         {
-            NamedSubcoreScannerComp scannerComp = __instance.GetComp<NamedSubcoreScannerComp>();
-            if (scannerComp.Ejected)
+            SubcoreScannerComp scannerComp = __instance.GetComp<SubcoreScannerComp>();
+            if (!scannerComp.Ejected) { return; }
+
+            SubcorePatternComp subcoreComp = TryGetSubcoreComp(__instance);
+            if (subcoreComp != null)
             {
-                NamedSubcoreComp subcoreComp = TryGetSubcoreComp(__instance);
-                if (subcoreComp != null)
-                {
-                    subcoreComp.OccupantName = scannerComp.OccupantName;
-                    scannerComp.OccupantName = null;
-                }
-                scannerComp.Ejected = false;
+                subcoreComp.PatternName = scannerComp.OccupantName;
             }
+
+            scannerComp.Reset();
         }
 
         /// <summary>
-        /// Try to find the subcore ejected from the scanner and return the component for it
+        /// Try to find the subcore ejected from the scanner and return the component for it.
         /// </summary>
         /// <param name="scanner"></param>
         /// <returns></returns>
-        static NamedSubcoreComp TryGetSubcoreComp(Building_SubcoreScanner scanner)
+        static SubcorePatternComp TryGetSubcoreComp(Building_SubcoreScanner scanner)
         {
             ThingDef subcoreDef = scanner.def.defName switch
             {
@@ -69,21 +68,18 @@ namespace NamedSubcores
                 _ => null
             };
 
-            if (subcoreDef != null)
+            if (subcoreDef == null) { return null; }
+
+            static bool validator(Thing subcore)
             {
-                static bool validator(Thing subcore)
-                {
-                    NamedSubcoreComp comp = subcore.TryGetComp<NamedSubcoreComp>();
-                    if (comp == null) { return false; }
-                    return comp.OccupantName == null;
-                }
-
-                Thing subcore = GenClosest.ClosestThingReachable(scanner.InteractionCell, scanner.Map, ThingRequest.ForDef(subcoreDef), Verse.AI.PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.ByPawn), 9999, validator);
-
-                return subcore?.TryGetComp<NamedSubcoreComp>() ?? null;
+                SubcorePatternComp comp = subcore.TryGetComp<SubcorePatternComp>();
+                if (comp == null) { return false; }
+                return comp.PatternName == null;
             }
 
-            return null;
+            Thing subcore = GenClosest.ClosestThingReachable(scanner.InteractionCell, scanner.Map, ThingRequest.ForDef(subcoreDef), Verse.AI.PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.ByPawn), 9999, validator);
+
+            return subcore?.TryGetComp<SubcorePatternComp>() ?? null;
         }
     }
 }

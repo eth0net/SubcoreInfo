@@ -9,7 +9,7 @@
       <value>
         <comps>
           <li>
-            <compClass>NamedSubcores.NamedMechComp</compClass>
+            <compClass>NamedSubcores.MechPatternComp</compClass>
           </li>
         </comps>
       </value>
@@ -18,7 +18,7 @@
       <xpath>/Defs/ThingDef[@Name="BaseMechanoid"]/comps</xpath>
       <value>
         <li>
-          <compClass>NamedSubcores.NamedMechComp</compClass>
+          <compClass>NamedSubcores.MechPatternComp</compClass>
         </li>
       </value>
     </match>

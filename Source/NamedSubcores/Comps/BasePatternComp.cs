@@ -3,21 +3,21 @@
 namespace NamedSubcores
 {
     /// <summary>
-    /// NamedMechComp is added to mech pawns, allowing us to track the pawn that was scanned into the subcore.
+    /// BasePatternComp implements the common features for the subcore and mech components.
     /// </summary>
-    public class NamedMechComp : ThingComp
+    public class BasePatternComp : ThingComp
     {
         /// <summary>
-        /// OccupantName tracks the name of the pawn scanned into the mech's subcore.
+        /// PatternName tracks the name of the pawn scanned.
         /// </summary>
-        public Name OccupantName;
+        public Name PatternName = null;
 
         /// <summary>
         /// PostExposeData is used to save our component state.
         /// </summary>
         public override void PostExposeData()
         {
-            Scribe_Deep.Look(ref OccupantName, "occupantName");
+            Scribe_Deep.Look(ref PatternName, "patternName");
             base.PostExposeData();
         }
 
@@ -27,7 +27,7 @@ namespace NamedSubcores
         /// <returns></returns>
         public override string CompInspectStringExtra()
         {
-            return "Occupant".Translate() + ": " + (OccupantName?.ToStringShort ?? "Unknown".Translate());
+            return "Pattern".Translate() + ": " + (PatternName?.ToStringShort ?? "Unknown".Translate());
         }
     }
 }

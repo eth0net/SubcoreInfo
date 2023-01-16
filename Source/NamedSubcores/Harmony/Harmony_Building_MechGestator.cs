@@ -15,34 +15,34 @@ namespace NamedSubcores
         internal static class Harmony_Building_MechGestator_Notify_AllGestationCyclesCompleted
         {
             /// <summary>
-            /// Prefix stores the named subcore component for later use.
+            /// Prefix stores the subcore component for later use.
             /// </summary>
             /// <param name="__instance"></param>
             internal static void Prefix(Building_MechGestator __instance)
             {
-                Func<Thing, bool> hasNamedSubcoreComp = (thing) => (thing?.TryGetComp<NamedSubcoreComp>() ?? null) != null;
+                static bool hasNamedSubcoreComp(Thing thing) => (thing?.TryGetComp<SubcorePatternComp>() ?? null) != null;
                 Thing subcore = __instance.innerContainer.FirstOrDefault(hasNamedSubcoreComp);
                 if (subcore == null) { return; }
 
-                NamedMechGestatorComp gestatorComp = __instance.GetComp<NamedMechGestatorComp>();
+                MechGestatorComp gestatorComp = __instance.GetComp<MechGestatorComp>();
                 if (gestatorComp == null) { return; }
 
-                gestatorComp.SubcoreOccupantName = subcore.TryGetComp<NamedSubcoreComp>()?.OccupantName;
+                gestatorComp.SubcoreComp = subcore.TryGetComp<SubcorePatternComp>();
             }
 
             /// <summary>
-            /// Postfix assigns the named subcore component to the new mech.
+            /// Postfix copies data from the subcore to the new mech.
             /// </summary>
             /// <param name="__instance"></param>
             internal static void Postfix(Building_MechGestator __instance)
             {
-                NamedMechGestatorComp gestatorComp = __instance.GetComp<NamedMechGestatorComp>();
+                MechGestatorComp gestatorComp = __instance.GetComp<MechGestatorComp>();
                 if (gestatorComp == null) { return; }
 
-                NamedMechComp mechComp = __instance.GestatingMech.GetComp<NamedMechComp>();
+                SubcorePatternComp mechComp = __instance.GestatingMech.GetComp<SubcorePatternComp>();
                 if (mechComp == null) { return; }
 
-                mechComp.OccupantName = gestatorComp.SubcoreOccupantName;
+                mechComp.PatternName = gestatorComp?.SubcoreComp?.PatternName;
             }
         }
     }
