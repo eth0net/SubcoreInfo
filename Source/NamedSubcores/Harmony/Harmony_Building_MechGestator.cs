@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using RimWorld;
-using System;
 using System.Linq;
 using Verse;
 
@@ -15,7 +14,7 @@ namespace NamedSubcores
         internal static class Harmony_Building_MechGestator_Notify_AllGestationCyclesCompleted
         {
             /// <summary>
-            /// Prefix stores the subcore component for later use.
+            /// Prefix stores the subcore pattern for later use.
             /// </summary>
             /// <param name="__instance"></param>
             internal static void Prefix(Building_MechGestator __instance)
@@ -24,10 +23,13 @@ namespace NamedSubcores
                 Thing subcore = __instance.innerContainer.FirstOrDefault(hasNamedSubcoreComp);
                 if (subcore == null) { return; }
 
+                SubcorePatternComp subcoreComp = subcore.TryGetComp<SubcorePatternComp>();
+                if (subcoreComp == null) { return; }
+
                 MechGestatorComp gestatorComp = __instance.GetComp<MechGestatorComp>();
                 if (gestatorComp == null) { return; }
 
-                gestatorComp.SubcoreComp = subcore.TryGetComp<SubcorePatternComp>();
+                gestatorComp.PatternName = subcoreComp.PatternName;
             }
 
             /// <summary>
@@ -39,10 +41,10 @@ namespace NamedSubcores
                 MechGestatorComp gestatorComp = __instance.GetComp<MechGestatorComp>();
                 if (gestatorComp == null) { return; }
 
-                SubcorePatternComp mechComp = __instance.GestatingMech.GetComp<SubcorePatternComp>();
+                MechPatternComp mechComp = __instance.GestatingMech.GetComp<MechPatternComp>();
                 if (mechComp == null) { return; }
 
-                mechComp.PatternName = gestatorComp?.SubcoreComp?.PatternName;
+                mechComp.PatternName = gestatorComp.PatternName;
             }
         }
     }

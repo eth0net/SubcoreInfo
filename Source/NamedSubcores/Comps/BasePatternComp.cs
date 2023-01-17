@@ -3,14 +3,14 @@
 namespace NamedSubcores
 {
     /// <summary>
-    /// BasePatternComp implements the common features for the subcore and mech components.
+    /// BasePatternComp implements the common features for the pattern components.
     /// </summary>
     public class BasePatternComp : ThingComp
     {
         /// <summary>
         /// PatternName tracks the name of the pawn scanned.
         /// </summary>
-        public Name PatternName = null;
+        public Name PatternName;
 
         /// <summary>
         /// PostExposeData is used to save our component state.
@@ -22,12 +22,11 @@ namespace NamedSubcores
         }
 
         /// <summary>
-        /// CompInspectStringExtra adds to the item inspection pane.
+        /// Reset allows the component to be reset for reuse.
         /// </summary>
-        /// <returns></returns>
-        public override string CompInspectStringExtra()
+        public void Reset()
         {
-            return "Pattern".Translate() + ": " + (PatternName?.ToStringShort ?? "Unknown".Translate());
+            PatternName = null;
         }
     }
 }

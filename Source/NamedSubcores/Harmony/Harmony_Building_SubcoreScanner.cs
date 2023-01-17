@@ -33,7 +33,7 @@ namespace NamedSubcores
         internal static void Prefix(Building_SubcoreScanner __instance)
         {
             SubcoreScannerComp scannerComp = __instance.GetComp<SubcoreScannerComp>();
-            scannerComp.OccupantName = __instance?.Occupant?.Name ?? null;
+            scannerComp.PatternName = __instance?.Occupant?.Name ?? null;
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace NamedSubcores
             SubcorePatternComp subcoreComp = TryGetSubcoreComp(__instance);
             if (subcoreComp != null)
             {
-                subcoreComp.PatternName = scannerComp.OccupantName;
+                subcoreComp.PatternName = scannerComp.PatternName;
             }
 
             scannerComp.Reset();

@@ -57,8 +57,9 @@
   <ItemGroup>
     <Compile Include="NamedSubcores.cs" />
     <Compile Include="Comps\BasePatternComp.cs" />
-    <Compile Include="Comps\MechPatternComp.cs" />
+    <Compile Include="Comps\InspectPatternComp.cs" />
     <Compile Include="Comps\MechGestatorComp.cs" />
+    <Compile Include="Comps\MechPatternComp.cs" />
     <Compile Include="Comps\SubcorePatternComp.cs" />
     <Compile Include="Comps\SubcoreScannerComp.cs" />
     <Compile Include="Harmony\Harmony_Building_MechGestator.cs" />
