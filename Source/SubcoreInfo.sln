@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NamedSubcores", "NamedSubcores\NamedSubcores.csproj", "{5850B4A6-F2A1-4822-8C82-EF54E17AF49F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubcoreInfo", "SubcoreInfo\SubcoreInfo.csproj", "{5850B4A6-F2A1-4822-8C82-EF54E17AF49F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

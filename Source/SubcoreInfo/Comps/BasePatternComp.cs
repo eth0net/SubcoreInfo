@@ -1,33 +1,32 @@
 ﻿using Verse;
 
-namespace NamedSubcores
+namespace SubcoreInfo
 {
     /// <summary>
-    /// SubcoreScannerComp is added to subcore scanners and allows us to track when a subcore is ejected.
+    /// BasePatternComp implements the common features for the pattern components.
     /// </summary>
-    public class SubcoreScannerComp : BasePatternComp
+    public class BasePatternComp : ThingComp
     {
         /// <summary>
-        /// Ejected tracks whether a subcore has just been ejected.
+        /// PatternName tracks the name of the pawn scanned.
         /// </summary>
-        public bool Ejected = false;
+        public Name PatternName;
 
         /// <summary>
         /// PostExposeData is used to save our component state.
         /// </summary>
         public override void PostExposeData()
         {
-            Scribe_Values.Look(ref Ejected, "ejected");
+            Scribe_Deep.Look(ref PatternName, "patternName");
             base.PostExposeData();
         }
 
         /// <summary>
         /// Reset allows the component to be reset for reuse.
         /// </summary>
-        public new void Reset()
+        public void Reset()
         {
-            base.Reset();
-            Ejected = false;
+            PatternName = null;
         }
     }
 }

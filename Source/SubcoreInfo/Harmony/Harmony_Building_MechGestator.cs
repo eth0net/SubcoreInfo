@@ -3,7 +3,7 @@ using RimWorld;
 using System.Linq;
 using Verse;
 
-namespace NamedSubcores
+namespace SubcoreInfo
 {
     internal class Harmony_Building_MechGestator
     {
@@ -19,14 +19,14 @@ namespace NamedSubcores
             /// <param name="__instance"></param>
             internal static void Prefix(Building_MechGestator __instance)
             {
-                static bool hasNamedSubcoreComp(Thing thing) => (thing?.TryGetComp<SubcorePatternComp>() ?? null) != null;
+                static bool hasNamedSubcoreComp(Thing thing) => (thing?.TryGetComp<SubcoreInfoComp>() ?? null) != null;
                 Thing subcore = __instance.innerContainer.FirstOrDefault(hasNamedSubcoreComp);
                 if (subcore == null) { return; }
 
-                SubcorePatternComp subcoreComp = subcore.TryGetComp<SubcorePatternComp>();
+                SubcoreInfoComp subcoreComp = subcore.TryGetComp<SubcoreInfoComp>();
                 if (subcoreComp == null) { return; }
 
-                MechGestatorComp gestatorComp = __instance.GetComp<MechGestatorComp>();
+                MechGestatorPatternComp gestatorComp = __instance.GetComp<MechGestatorPatternComp>();
                 if (gestatorComp == null) { return; }
 
                 gestatorComp.PatternName = subcoreComp.PatternName;
@@ -38,10 +38,10 @@ namespace NamedSubcores
             /// <param name="__instance"></param>
             internal static void Postfix(Building_MechGestator __instance)
             {
-                MechGestatorComp gestatorComp = __instance.GetComp<MechGestatorComp>();
+                MechGestatorPatternComp gestatorComp = __instance.GetComp<MechGestatorPatternComp>();
                 if (gestatorComp == null) { return; }
 
-                MechPatternComp mechComp = __instance.GestatingMech.GetComp<MechPatternComp>();
+                MechInfoComp mechComp = __instance.GestatingMech.GetComp<MechInfoComp>();
                 if (mechComp == null) { return; }
 
                 mechComp.PatternName = gestatorComp.PatternName;

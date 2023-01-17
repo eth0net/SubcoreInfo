@@ -8,8 +8,8 @@
     <ProjectGuid>{5850B4A6-F2A1-4822-8C82-EF54E17AF49F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NamedSubcores</RootNamespace>
-    <AssemblyName>NamedSubcores</AssemblyName>
+    <RootNamespace>SubcoreInfo</RootNamespace>
+    <AssemblyName>SubcoreInfo</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <LangVersion>preview</LangVersion>
     <FileAlignment>512</FileAlignment>
@@ -55,13 +55,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NamedSubcores.cs" />
+    <Compile Include="SubcoreInfo.cs" />
     <Compile Include="Comps\BasePatternComp.cs" />
-    <Compile Include="Comps\InspectPatternComp.cs" />
-    <Compile Include="Comps\MechGestatorComp.cs" />
-    <Compile Include="Comps\MechPatternComp.cs" />
-    <Compile Include="Comps\SubcorePatternComp.cs" />
-    <Compile Include="Comps\SubcoreScannerComp.cs" />
+    <Compile Include="Comps\BaseInfoComp.cs" />
+    <Compile Include="Comps\MechGestatorPatternComp.cs" />
+    <Compile Include="Comps\MechInfoComp.cs" />
+    <Compile Include="Comps\SubcoreInfoComp.cs" />
+    <Compile Include="Comps\SubcoreScannerPatternComp.cs" />
     <Compile Include="Harmony\Harmony_Building_MechGestator.cs" />
     <Compile Include="Harmony\Harmony_Building_SubcoreScanner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

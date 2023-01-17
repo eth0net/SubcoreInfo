@@ -1,13 +1,13 @@
 ﻿using Verse;
 
-namespace NamedSubcores
+namespace SubcoreInfo
 {
     /// <summary>
-    /// InspectPatternComp implements the common inspect method for pattern components.
+    /// BaseInfoComp implements the common inspect method for pattern components.
     /// </summary>
-    public class InspectPatternComp : BasePatternComp
+    public class BaseInfoComp : BasePatternComp
     {
-                /// <summary>
+        /// <summary>
         /// CompInspectStringExtra adds to the item inspection pane.
         /// </summary>
         /// <returns></returns>

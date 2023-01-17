@@ -2,7 +2,7 @@
 using RimWorld;
 using Verse;
 
-namespace NamedSubcores
+namespace SubcoreInfo
 {
     /// <summary>
     /// Harmony_Building_SubcoreScanner_EjectContents patches subcore scanners to use our component during ejects.
@@ -16,7 +16,7 @@ namespace NamedSubcores
         /// <param name="__instance"></param>
         internal static void Postfix(Building_SubcoreScanner __instance)
         {
-            __instance.GetComp<SubcoreScannerComp>().Ejected = true;
+            __instance.GetComp<SubcoreScannerPatternComp>().Ejected = true;
         }
     }
 
@@ -32,7 +32,7 @@ namespace NamedSubcores
         /// <param name="__instance"></param>
         internal static void Prefix(Building_SubcoreScanner __instance)
         {
-            SubcoreScannerComp scannerComp = __instance.GetComp<SubcoreScannerComp>();
+            SubcoreScannerPatternComp scannerComp = __instance.GetComp<SubcoreScannerPatternComp>();
             scannerComp.PatternName = __instance?.Occupant?.Name ?? null;
         }
 
@@ -42,10 +42,10 @@ namespace NamedSubcores
         /// <param name="__instance"></param>
         internal static void Postfix(Building_SubcoreScanner __instance)
         {
-            SubcoreScannerComp scannerComp = __instance.GetComp<SubcoreScannerComp>();
+            SubcoreScannerPatternComp scannerComp = __instance.GetComp<SubcoreScannerPatternComp>();
             if (!scannerComp.Ejected) { return; }
 
-            SubcorePatternComp subcoreComp = TryGetSubcoreComp(__instance);
+            SubcoreInfoComp subcoreComp = TryGetSubcoreComp(__instance);
             if (subcoreComp != null)
             {
                 subcoreComp.PatternName = scannerComp.PatternName;
@@ -55,11 +55,11 @@ namespace NamedSubcores
         }
 
         /// <summary>
-        /// Try to find the subcore ejected from the scanner and return the component for it.
+        /// Try to find kekethe subcore ejected from the scanner and return the component for it.
         /// </summary>
         /// <param name="scanner"></param>
         /// <returns></returns>
-        static SubcorePatternComp TryGetSubcoreComp(Building_SubcoreScanner scanner)
+        static SubcoreInfoComp TryGetSubcoreComp(Building_SubcoreScanner scanner)
         {
             ThingDef subcoreDef = scanner.def.defName switch
             {
@@ -72,14 +72,14 @@ namespace NamedSubcores
 
             static bool validator(Thing subcore)
             {
-                SubcorePatternComp comp = subcore.TryGetComp<SubcorePatternComp>();
+                SubcoreInfoComp comp = subcore.TryGetComp<SubcoreInfoComp>();
                 if (comp == null) { return false; }
                 return comp.PatternName == null;
             }
 
             Thing subcore = GenClosest.ClosestThingReachable(scanner.InteractionCell, scanner.Map, ThingRequest.ForDef(subcoreDef), Verse.AI.PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.ByPawn), 9999, validator);
 
-            return subcore?.TryGetComp<SubcorePatternComp>() ?? null;
+            return subcore?.TryGetComp<SubcoreInfoComp>() ?? null;
         }
     }
 }

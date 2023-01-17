@@ -1,4 +1,4 @@
-# ![NamedSubcores](./About/Preview.png)
+# ![SubcoreInfo](./About/Preview.png)
 
 Track which unfortunate pawn your subcores came from!
 

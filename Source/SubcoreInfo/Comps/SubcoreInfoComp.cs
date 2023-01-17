@@ -1,11 +1,12 @@
 ﻿using Verse;
 
-namespace NamedSubcores
+namespace SubcoreInfo
 {
     /// <summary>
-    /// MechPatternComp is added to subcores and is used to track the pawn scanned into the subcore.
+    /// SubcoreInfoComp is added to subcores and is used to track the pawn scanned into the subcore.
     /// </summary>
-    public class SubcorePatternComp : InspectPatternComp {
+    public class SubcoreInfoComp : BaseInfoComp
+    {
         /// <summary>
         /// AllowStackWith ensures that subcores can only be stacked with others of the same pattern.
         /// </summary>
@@ -15,7 +16,7 @@ namespace NamedSubcores
         {
             if (base.AllowStackWith(other) == false) { return false; };
 
-            SubcorePatternComp otherComp = other?.TryGetComp<SubcorePatternComp>();
+            SubcoreInfoComp otherComp = other?.TryGetComp<SubcoreInfoComp>();
             if (otherComp == null) { return false; }
 
             return PatternName == otherComp.PatternName;

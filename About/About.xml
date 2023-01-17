@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
-  <name>Named Subcores</name>
-  <packageId>eth0net.NamedSubcores</packageId>
+  <name>SubcoreInfo</name>
+  <packageId>eth0net.SubcoreInfo</packageId>
   <author>synthe0n</author>
   <description>Track which unfortunate pawn your subcores came from!</description>
   <supportedVersions>
