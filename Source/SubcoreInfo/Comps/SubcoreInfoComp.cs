@@ -1,4 +1,5 @@
-﻿using Verse;
+﻿using RimWorld;
+using Verse;
 
 namespace SubcoreInfo
 {
@@ -20,6 +21,24 @@ namespace SubcoreInfo
             if (otherComp == null) { return false; }
 
             return PatternName == otherComp.PatternName;
+        }
+
+        /// <summary>
+        /// PostPostGeneratedForTrader is called after the subcore is generated for a trader.
+        /// </summary>
+        /// <param name="trader"></param>
+        /// <param name="forTile"></param>
+        /// <param name="forFaction"></param>
+        public override void PostPostGeneratedForTrader(TraderKindDef trader, int forTile, Faction forFaction)
+        {
+            base.PostPostGeneratedForTrader(trader, forTile, forFaction);
+
+            Gender gender = Rand.Bool ? Gender.Male : Gender.Female;
+            PawnKindDef pawnKind = forFaction.RandomPawnKind();
+            RulePackDef pawnKindNameMaker = pawnKind.GetNameMaker(gender);
+            RulePackDef raceNameGenerator = pawnKind.RaceProps.GetNameGenerator(gender);
+
+            PatternName = PawnBioAndNameGenerator.GenerateFullPawnName(parent.def, pawnKindNameMaker, null, null, raceNameGenerator, null, gender);
         }
     }
 }
