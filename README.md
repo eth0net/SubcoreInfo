@@ -20,6 +20,7 @@ Track which unfortunate pawn your subcores came from!
 
 This mod is safe to add or remove from saves!
 
+Use this to give patterns to existing mechs or subcores in your save file:
 ```xml
 <patternName Class="NameTriple">
 	<first>Poor</first>
