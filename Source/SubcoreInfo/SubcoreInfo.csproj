@@ -63,6 +63,8 @@
     <Compile Include="Comps\SubcoreScannerPatternComp.cs" />
     <Compile Include="Harmony\Harmony_Building_MechGestator.cs" />
     <Compile Include="Harmony\Harmony_Building_SubcoreScanner.cs" />
+    <Compile Include="Harmony\Harmony_JobDriver_DisassembleMech.cs" />
+    <Compile Include="Harmony\Harmony_Pawn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿namespace SubcoreInfo
+﻿namespace SubcoreInfo.Comps
 {
     /// <summary>
     /// MechGestatorPatternComp is added to mech gestators and

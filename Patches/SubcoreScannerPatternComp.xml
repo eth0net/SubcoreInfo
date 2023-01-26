@@ -9,7 +9,7 @@
       <value>
         <comps>
           <li>
-            <compClass>SubcoreInfo.SubcoreScannerPatternComp</compClass>
+            <compClass>SubcoreInfo.Comps.SubcoreScannerPatternComp</compClass>
           </li>
         </comps>
       </value>
@@ -18,7 +18,7 @@
       <xpath>/Defs/ThingDef[defName="SubcoreSoftscanner" or defName="SubcoreRipscanner"]/comps</xpath>
       <value>
         <li>
-          <compClass>SubcoreInfo.SubcoreScannerPatternComp</compClass>
+          <compClass>SubcoreInfo.Comps.SubcoreScannerPatternComp</compClass>
         </li>
       </value>
     </match>

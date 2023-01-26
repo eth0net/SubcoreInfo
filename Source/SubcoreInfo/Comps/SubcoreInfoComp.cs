@@ -1,7 +1,7 @@
 ﻿using RimWorld;
 using Verse;
 
-namespace SubcoreInfo
+namespace SubcoreInfo.Comps
 {
     /// <summary>
     /// SubcoreInfoComp is added to subcores and is used to track the pawn scanned into the subcore.

@@ -1,6 +1,6 @@
 ﻿using Verse;
 
-namespace SubcoreInfo
+namespace SubcoreInfo.Comps
 {
     /// <summary>
     /// BaseInfoComp implements the common inspect method for pattern components.

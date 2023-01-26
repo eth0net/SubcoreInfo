@@ -1,6 +1,6 @@
 ﻿using Verse;
 
-namespace SubcoreInfo
+namespace SubcoreInfo.Comps
 {
     /// <summary>
     /// BasePatternComp implements the common features for the pattern components.

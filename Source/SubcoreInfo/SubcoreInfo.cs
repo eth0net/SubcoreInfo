@@ -1,5 +1,4 @@
-﻿using HarmonyLib;
-using Verse;
+﻿using Verse;
 
 namespace SubcoreInfo
 {
@@ -14,7 +13,7 @@ namespace SubcoreInfo
         /// </summary>
         static SubcoreInfo()
         {
-            var harmony = new Harmony("eth0net.SubcoreInfo.harmony");
+            var harmony = new HarmonyLib.Harmony("eth0net.SubcoreInfo.harmony");
             harmony.PatchAll();
         }
     }

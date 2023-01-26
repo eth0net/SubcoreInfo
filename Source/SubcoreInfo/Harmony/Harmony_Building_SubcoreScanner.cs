@@ -1,13 +1,14 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using SubcoreInfo.Comps;
 using Verse;
 
-namespace SubcoreInfo
+namespace SubcoreInfo.Harmony
 {
     /// <summary>
     /// Harmony_Building_SubcoreScanner_EjectContents patches subcore scanners to use our component during ejects.
     /// </summary>
-    [HarmonyPatch(typeof(Building_SubcoreScanner), "EjectContents")]
+    [HarmonyPatch(typeof(Building_SubcoreScanner), nameof(Building_SubcoreScanner.EjectContents))]
     internal static class Harmony_Building_SubcoreScanner_EjectContents
     {
         /// <summary>
@@ -23,7 +24,7 @@ namespace SubcoreInfo
     /// <summary>
     /// Harmony_Building_SubcoreScanner_Tick patches subcore scanners to use our component during ticks.
     /// </summary>
-    [HarmonyPatch(typeof(Building_SubcoreScanner), "Tick")]
+    [HarmonyPatch(typeof(Building_SubcoreScanner), nameof(Building_SubcoreScanner.Tick))]
     internal static class Harmony_Building_SubcoreScanner_Tick
     {
         /// <summary>

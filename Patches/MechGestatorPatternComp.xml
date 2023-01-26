@@ -9,7 +9,7 @@
       <value>
         <comps>
           <li>
-            <compClass>SubcoreInfo.MechGestatorPatternComp</compClass>
+            <compClass>SubcoreInfo.Comps.MechGestatorPatternComp</compClass>
           </li>
         </comps>
       </value>
@@ -18,7 +18,7 @@
       <xpath>/Defs/ThingDef[@Name="MechGestatorBase"]/comps</xpath>
       <value>
         <li>
-          <compClass>SubcoreInfo.MechGestatorPatternComp</compClass>
+          <compClass>SubcoreInfo.Comps.MechGestatorPatternComp</compClass>
         </li>
       </value>
     </match>

@@ -1,16 +1,17 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using SubcoreInfo.Comps;
 using System.Linq;
 using Verse;
 
-namespace SubcoreInfo
+namespace SubcoreInfo.Harmony
 {
     internal class Harmony_Building_MechGestator
     {
         /// <summary>
         /// Harmony_Building_MechGestator_Notify_AllGestationCyclesCompleted patches mech gestators to use our component on completion.
         /// </summary>
-        [HarmonyPatch(typeof(Building_MechGestator), "Notify_AllGestationCyclesCompleted")]
+        [HarmonyPatch(typeof(Building_MechGestator), nameof(Building_MechGestator.Notify_AllGestationCyclesCompleted))]
         internal static class Harmony_Building_MechGestator_Notify_AllGestationCyclesCompleted
         {
             /// <summary>

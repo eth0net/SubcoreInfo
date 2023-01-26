@@ -1,6 +1,6 @@
 ﻿using Verse;
 
-namespace SubcoreInfo
+namespace SubcoreInfo.Comps
 {
     /// <summary>
     /// SubcoreScannerPatternComp is added to subcore scanners

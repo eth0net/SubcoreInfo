@@ -9,7 +9,7 @@
       <value>
         <comps>
           <li>
-            <compClass>SubcoreInfo.SubcoreInfoComp</compClass>
+            <compClass>SubcoreInfo.Comps.SubcoreInfoComp</compClass>
           </li>
         </comps>
       </value>
@@ -18,7 +18,7 @@
       <xpath>/Defs/ThingDef[defName="SubcoreRegular" or defName="SubcoreHigh"]/comps</xpath>
       <value>
         <li>
-          <compClass>SubcoreInfo.SubcoreInfoComp</compClass>
+          <compClass>SubcoreInfo.Comps.SubcoreInfoComp</compClass>
         </li>
       </value>
     </match>
