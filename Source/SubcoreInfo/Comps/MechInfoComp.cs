@@ -16,7 +16,7 @@ namespace SubcoreInfo.Comps
         /// </summary>
         public override void PostExposeData()
         {
-            Scribe_Deep.Look(ref Disassembling, "disassembling");
+            Scribe_Values.Look(ref Disassembling, "disassembling");
             base.PostExposeData();
         }
 
