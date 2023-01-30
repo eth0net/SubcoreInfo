@@ -3,9 +3,9 @@
 namespace SubcoreInfo.Comps
 {
     /// <summary>
-    /// BaseInfoComp implements the common inspect method for pattern components.
+    /// CompPatternInfo implements the common inspect method for pattern components.
     /// </summary>
-    public class BaseInfoComp : ThingComp
+    public class CompPatternInfo : ThingComp
     {
         /// <summary>
         /// PatternName tracks the name of the pawn scanned.

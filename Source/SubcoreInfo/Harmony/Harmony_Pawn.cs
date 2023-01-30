@@ -22,10 +22,10 @@ namespace SubcoreInfo.Harmony
             {
                 if (__instance == null || !__instance.IsColonyMech) { return; }
 
-                MechInfoComp mechComp = __instance.GetComp<MechInfoComp>();
+                CompMechInfo mechComp = __instance.GetComp<CompMechInfo>();
                 if (mechComp == null || !mechComp.Disassembling) { return; }
 
-                SubcoreInfoComp subcoreComp = TryGetSubcoreComp(__instance);
+                CompSubcoreInfo subcoreComp = TryGetSubcoreComp(__instance);
                 if (subcoreComp == null) { return; }
 
                 subcoreComp.PatternName = mechComp.PatternName;
@@ -37,21 +37,21 @@ namespace SubcoreInfo.Harmony
             /// </summary>
             /// <param name="scanner"></param>
             /// <returns></returns>
-            static SubcoreInfoComp TryGetSubcoreComp(Pawn mech)
+            static CompSubcoreInfo TryGetSubcoreComp(Pawn mech)
             {
                 ThingDefCountClass subcoreClass = MechanitorUtility.IngredientsFromDisassembly(mech.def).FirstOrDefault((ThingDefCountClass thing) => thing.thingDef.defName == "SubcoreRegular" || thing.thingDef.defName == "SubcoreHigh");
                 if (subcoreClass == null) { return null; }
 
                 static bool validator(Thing subcore)
                 {
-                    SubcoreInfoComp comp = subcore.TryGetComp<SubcoreInfoComp>();
+                    CompSubcoreInfo comp = subcore.TryGetComp<CompSubcoreInfo>();
                     if (comp == null) { return false; }
                     return comp.PatternName == null;
                 }
 
                 Thing subcore = GenClosest.ClosestThingReachable(mech.Position, mech.Map, ThingRequest.ForDef(subcoreClass.thingDef), PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.ByPawn), 9999, validator);
 
-                return subcore?.TryGetComp<SubcoreInfoComp>() ?? null;
+                return subcore?.TryGetComp<CompSubcoreInfo>() ?? null;
             }
         }
     }

@@ -4,9 +4,9 @@ using Verse;
 namespace SubcoreInfo.Comps
 {
     /// <summary>
-    /// SubcoreInfoComp is added to subcores and is used to track the pawn scanned into the subcore.
+    /// CompSubcoreInfo is added to subcores and is used to track the pawn scanned into the subcore.
     /// </summary>
-    public class SubcoreInfoComp : BaseInfoComp
+    public class CompSubcoreInfo : CompPatternInfo
     {
         /// <summary>
         /// AllowStackWith ensures that subcores can only be stacked with others of the same pattern.
@@ -17,7 +17,7 @@ namespace SubcoreInfo.Comps
         {
             if (base.AllowStackWith(other) == false) { return false; };
 
-            SubcoreInfoComp otherComp = other?.TryGetComp<SubcoreInfoComp>();
+            CompSubcoreInfo otherComp = other?.TryGetComp<CompSubcoreInfo>();
             if (otherComp == null) { return false; }
 
             return PatternName == otherComp.PatternName;

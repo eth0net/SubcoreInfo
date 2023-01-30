@@ -23,7 +23,7 @@ namespace SubcoreInfo.Harmony
                 Pawn mech = (Pawn)__instance.job.GetTarget(TargetIndex.A).Thing;
                 if (mech == null) { return; }
 
-                MechInfoComp mechComp = mech.GetComp<MechInfoComp>();
+                CompMechInfo mechComp = mech.GetComp<CompMechInfo>();
                 if (mechComp == null) { return; }
 
                 mechComp.Disassembling = true;

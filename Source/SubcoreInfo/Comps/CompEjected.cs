@@ -3,10 +3,10 @@
 namespace SubcoreInfo.Comps
 {
     /// <summary>
-    /// SubcoreScannerEjectedComp is added to subcore scanners
+    /// CompEjected is added to subcore scanners
     /// allowing us to track when a subcore is ejected.
     /// </summary>
-    public class SubcoreScannerEjectedComp : ThingComp
+    public class CompEjected : ThingComp
     {
         /// <summary>
         /// Ejected tracks whether a subcore has just been ejected.

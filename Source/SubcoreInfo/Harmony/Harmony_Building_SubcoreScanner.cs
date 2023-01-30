@@ -17,7 +17,7 @@ namespace SubcoreInfo.Harmony
         /// <param name="__instance"></param>
         internal static void Postfix(Building_SubcoreScanner __instance)
         {
-            __instance.GetComp<SubcoreScannerEjectedComp>().Ejected = true;
+            __instance.GetComp<CompEjected>().Ejected = true;
         }
     }
 
@@ -44,7 +44,7 @@ namespace SubcoreInfo.Harmony
         /// <param name="__state"></param>
         internal static void Postfix(Building_SubcoreScanner __instance, Name __state)
         {
-            SubcoreInfoComp comp = TryGetSubcoreComp(__instance);
+            CompSubcoreInfo comp = TryGetSubcoreComp(__instance);
             if (comp == null) return;
 
             comp.PatternName = __state;
@@ -55,7 +55,7 @@ namespace SubcoreInfo.Harmony
         /// </summary>
         /// <param name="scanner"></param>
         /// <returns></returns>
-        static SubcoreInfoComp TryGetSubcoreComp(Building_SubcoreScanner scanner)
+        static CompSubcoreInfo TryGetSubcoreComp(Building_SubcoreScanner scanner)
         {
             ThingDef subcoreDef = scanner.def.defName switch
             {
@@ -68,13 +68,13 @@ namespace SubcoreInfo.Harmony
 
             static bool validator(Thing subcore)
             {
-                SubcoreInfoComp comp = subcore.TryGetComp<SubcoreInfoComp>();
+                CompSubcoreInfo comp = subcore.TryGetComp<CompSubcoreInfo>();
                 return comp != null && comp.PatternName == null;
             }
 
             Thing subcore = GenClosest.ClosestThingReachable(scanner.InteractionCell, scanner.Map, ThingRequest.ForDef(subcoreDef), Verse.AI.PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.ByPawn), 9999, validator);
 
-            return subcore?.TryGetComp<SubcoreInfoComp>() ?? null;
+            return subcore?.TryGetComp<CompSubcoreInfo>() ?? null;
         }
     }
 }

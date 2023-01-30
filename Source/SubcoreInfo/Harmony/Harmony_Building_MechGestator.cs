@@ -21,11 +21,11 @@ namespace SubcoreInfo.Harmony
             /// <param name="__state"></param>
             internal static void Prefix(Building_MechGestator __instance, ref Name __state)
             {
-                static bool hasNamedSubcoreComp(Thing thing) => (thing?.TryGetComp<SubcoreInfoComp>() ?? null) != null;
+                static bool hasNamedSubcoreComp(Thing thing) => (thing?.TryGetComp<CompSubcoreInfo>() ?? null) != null;
                 Thing subcore = __instance.innerContainer.FirstOrDefault(hasNamedSubcoreComp);
                 if (subcore == null) { return; }
 
-                SubcoreInfoComp subcoreComp = subcore.TryGetComp<SubcoreInfoComp>();
+                CompSubcoreInfo subcoreComp = subcore.TryGetComp<CompSubcoreInfo>();
                 if (subcoreComp == null) { return; }
 
                 __state = subcoreComp.PatternName;
@@ -38,7 +38,7 @@ namespace SubcoreInfo.Harmony
             /// <param name="__state"></param>
             internal static void Postfix(Building_MechGestator __instance, Name __state)
             {
-                MechInfoComp mechComp = __instance.GestatingMech.GetComp<MechInfoComp>();
+                CompMechInfo mechComp = __instance.GestatingMech.GetComp<CompMechInfo>();
                 if (mechComp == null) { return; }
 
                 mechComp.PatternName = __state;
