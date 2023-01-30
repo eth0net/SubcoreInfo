@@ -5,7 +5,8 @@ namespace SubcoreInfo.Comps
     /// <summary>
     /// CompMechInfo is added to mechanoids and is used to track the pawn scanned into the subcore.
     /// </summary>
-    public class CompMechInfo : CompPatternInfo {
+    public class CompMechInfo : CompPatternInfo
+    {
         /// <summary>
         /// Disassembling tracks when a mech is being disassembled.
         /// </summary>

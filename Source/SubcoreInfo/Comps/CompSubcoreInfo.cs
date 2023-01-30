@@ -15,7 +15,9 @@ namespace SubcoreInfo.Comps
         /// <returns></returns>
         public override bool AllowStackWith(Thing other)
         {
-            if (base.AllowStackWith(other) == false) { return false; };
+            if (!base.AllowStackWith(other)) { return false; }
+
+            if (!SubcoreInfoSettings.separatePatternStacks) { return true; }
 
             CompSubcoreInfo otherComp = other?.TryGetComp<CompSubcoreInfo>();
             if (otherComp == null) { return false; }
@@ -32,6 +34,8 @@ namespace SubcoreInfo.Comps
         public override void PostPostGeneratedForTrader(TraderKindDef trader, int forTile, Faction forFaction)
         {
             base.PostPostGeneratedForTrader(trader, forTile, forFaction);
+
+            if (!SubcoreInfoSettings.randomTraderPatterns) { return; }
 
             Gender gender = Rand.Bool ? Gender.Male : Gender.Female;
             PawnKindDef pawnKind = forFaction.RandomPawnKind();

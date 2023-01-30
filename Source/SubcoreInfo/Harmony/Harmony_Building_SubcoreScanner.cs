@@ -34,7 +34,7 @@ namespace SubcoreInfo.Harmony
         /// <param name="__state"></param>
         internal static void Prefix(Building_SubcoreScanner __instance, ref Name __state)
         {
-            __state = __instance?.Occupant?.Name ?? null;
+            __state = __instance?.Occupant?.Name;
         }
 
         /// <summary>
@@ -45,13 +45,13 @@ namespace SubcoreInfo.Harmony
         internal static void Postfix(Building_SubcoreScanner __instance, Name __state)
         {
             CompSubcoreInfo comp = TryGetSubcoreComp(__instance);
-            if (comp == null) return;
+            if (comp == null) { return; }
 
             comp.PatternName = __state;
         }
 
         /// <summary>
-        /// Try to find kekethe subcore ejected from the scanner and return the component for it.
+        /// Try to find the subcore ejected from the scanner and return the component for it.
         /// </summary>
         /// <param name="scanner"></param>
         /// <returns></returns>
@@ -74,7 +74,7 @@ namespace SubcoreInfo.Harmony
 
             Thing subcore = GenClosest.ClosestThingReachable(scanner.InteractionCell, scanner.Map, ThingRequest.ForDef(subcoreDef), Verse.AI.PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.ByPawn), 9999, validator);
 
-            return subcore?.TryGetComp<CompSubcoreInfo>() ?? null;
+            return subcore?.TryGetComp<CompSubcoreInfo>();
         }
     }
 }
