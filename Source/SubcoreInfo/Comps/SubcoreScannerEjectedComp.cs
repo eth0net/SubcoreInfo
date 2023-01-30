@@ -3,10 +3,10 @@
 namespace SubcoreInfo.Comps
 {
     /// <summary>
-    /// SubcoreScannerPatternComp is added to subcore scanners
+    /// SubcoreScannerEjectedComp is added to subcore scanners
     /// allowing us to track when a subcore is ejected.
     /// </summary>
-    public class SubcoreScannerPatternComp : BasePatternComp
+    public class SubcoreScannerEjectedComp : ThingComp
     {
         /// <summary>
         /// Ejected tracks whether a subcore has just been ejected.
@@ -25,9 +25,8 @@ namespace SubcoreInfo.Comps
         /// <summary>
         /// Reset allows the component to be reset for reuse.
         /// </summary>
-        public new void Reset()
+        public void Reset()
         {
-            base.Reset();
             Ejected = false;
         }
     }

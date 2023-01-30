@@ -17,7 +17,7 @@ namespace SubcoreInfo.Harmony
         /// <param name="__instance"></param>
         internal static void Postfix(Building_SubcoreScanner __instance)
         {
-            __instance.GetComp<SubcoreScannerPatternComp>().Ejected = true;
+            __instance.GetComp<SubcoreScannerEjectedComp>().Ejected = true;
         }
     }
 
@@ -31,28 +31,23 @@ namespace SubcoreInfo.Harmony
         /// Prefix stores the name of the current occupant for later use.
         /// </summary>
         /// <param name="__instance"></param>
-        internal static void Prefix(Building_SubcoreScanner __instance)
+        /// <param name="__state"></param>
+        internal static void Prefix(Building_SubcoreScanner __instance, ref Name __state)
         {
-            SubcoreScannerPatternComp scannerComp = __instance.GetComp<SubcoreScannerPatternComp>();
-            scannerComp.PatternName = __instance?.Occupant?.Name ?? null;
+            __state = __instance?.Occupant?.Name ?? null;
         }
 
         /// <summary>
         /// Postfix attempts to update the subcore if one was just ejected by the scanner.
         /// </summary>
         /// <param name="__instance"></param>
-        internal static void Postfix(Building_SubcoreScanner __instance)
+        /// <param name="__state"></param>
+        internal static void Postfix(Building_SubcoreScanner __instance, Name __state)
         {
-            SubcoreScannerPatternComp scannerComp = __instance.GetComp<SubcoreScannerPatternComp>();
-            if (!scannerComp.Ejected) { return; }
+            SubcoreInfoComp comp = TryGetSubcoreComp(__instance);
+            if (comp == null) return;
 
-            SubcoreInfoComp subcoreComp = TryGetSubcoreComp(__instance);
-            if (subcoreComp != null)
-            {
-                subcoreComp.PatternName = scannerComp.PatternName;
-            }
-
-            scannerComp.Reset();
+            comp.PatternName = __state;
         }
 
         /// <summary>
@@ -74,8 +69,7 @@ namespace SubcoreInfo.Harmony
             static bool validator(Thing subcore)
             {
                 SubcoreInfoComp comp = subcore.TryGetComp<SubcoreInfoComp>();
-                if (comp == null) { return false; }
-                return comp.PatternName == null;
+                return comp != null && comp.PatternName == null;
             }
 
             Thing subcore = GenClosest.ClosestThingReachable(scanner.InteractionCell, scanner.Map, ThingRequest.ForDef(subcoreDef), Verse.AI.PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.ByPawn), 9999, validator);

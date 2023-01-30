@@ -55,11 +55,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SubcoreInfo.cs" />
-    <Compile Include="Comps\BasePatternComp.cs" />
     <Compile Include="Comps\BaseInfoComp.cs" />
     <Compile Include="Comps\MechInfoComp.cs" />
     <Compile Include="Comps\SubcoreInfoComp.cs" />
-    <Compile Include="Comps\SubcoreScannerPatternComp.cs" />
+    <Compile Include="Comps\SubcoreScannerEjectedComp.cs" />
     <Compile Include="Harmony\Harmony_Building_MechGestator.cs" />
     <Compile Include="Harmony\Harmony_Building_SubcoreScanner.cs" />
     <Compile Include="Harmony\Harmony_JobDriver_DisassembleMech.cs" />
