@@ -18,7 +18,8 @@ namespace SubcoreInfo.Harmony
             /// Prefix stores the subcore pattern for later use.
             /// </summary>
             /// <param name="__instance"></param>
-            internal static void Prefix(Building_MechGestator __instance)
+            /// <param name="__state"></param>
+            internal static void Prefix(Building_MechGestator __instance, ref Name __state)
             {
                 static bool hasNamedSubcoreComp(Thing thing) => (thing?.TryGetComp<SubcoreInfoComp>() ?? null) != null;
                 Thing subcore = __instance.innerContainer.FirstOrDefault(hasNamedSubcoreComp);
@@ -27,25 +28,20 @@ namespace SubcoreInfo.Harmony
                 SubcoreInfoComp subcoreComp = subcore.TryGetComp<SubcoreInfoComp>();
                 if (subcoreComp == null) { return; }
 
-                MechGestatorPatternComp gestatorComp = __instance.GetComp<MechGestatorPatternComp>();
-                if (gestatorComp == null) { return; }
-
-                gestatorComp.PatternName = subcoreComp.PatternName;
+                __state = subcoreComp.PatternName;
             }
 
             /// <summary>
             /// Postfix copies data from the subcore to the new mech.
             /// </summary>
             /// <param name="__instance"></param>
-            internal static void Postfix(Building_MechGestator __instance)
+            /// <param name="__state"></param>
+            internal static void Postfix(Building_MechGestator __instance, Name __state)
             {
-                MechGestatorPatternComp gestatorComp = __instance.GetComp<MechGestatorPatternComp>();
-                if (gestatorComp == null) { return; }
-
                 MechInfoComp mechComp = __instance.GestatingMech.GetComp<MechInfoComp>();
                 if (mechComp == null) { return; }
 
-                mechComp.PatternName = gestatorComp.PatternName;
+                mechComp.PatternName = __state;
             }
         }
     }
