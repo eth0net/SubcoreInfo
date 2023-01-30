@@ -72,7 +72,7 @@ namespace SubcoreInfo.Harmony
                 return comp != null && comp.PatternName == null;
             }
 
-            Thing subcore = GenClosest.ClosestThingReachable(scanner.InteractionCell, scanner.Map, ThingRequest.ForDef(subcoreDef), Verse.AI.PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.ByPawn), 9999, validator);
+            Thing subcore = GenClosest.ClosestThing_Global(scanner.InteractionCell, scanner.Map.listerThings.ThingsOfDef(subcoreDef), 9999, validator);
 
             return subcore?.TryGetComp<CompSubcoreInfo>();
         }
