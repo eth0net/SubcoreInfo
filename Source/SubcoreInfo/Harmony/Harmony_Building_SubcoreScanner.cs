@@ -44,6 +44,9 @@ namespace SubcoreInfo.Harmony
         /// <param name="__state"></param>
         internal static void Postfix(Building_SubcoreScanner __instance, Name __state)
         {
+            bool ejected = __instance.GetComp<CompEjected>().Ejected;
+            if (!ejected) { return; }
+
             CompSubcoreInfo comp = TryGetSubcoreComp(__instance);
             if (comp == null) { return; }
 
