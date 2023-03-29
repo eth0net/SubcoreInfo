@@ -8,21 +8,28 @@ using Verse;
 namespace SubcoreInfo.Harmony
 {
     /// <summary>
+    /// Harmony_Building_SubcoreScanner_TryAcceptPawn patches subcore scanners to use our component on pawn entry.
+    /// </summary>
+    [HarmonyPatch(typeof(Building_SubcoreScanner), nameof(Building_SubcoreScanner.TryAcceptPawn))]
+    internal static class Harmony_Building_SubcoreScanner_TryAcceptPawn
+    {
+        /// <summary>
+        /// Postfix stores the pawn name in our component for later use.
+        /// </summary>
+        /// <param name="__instance"></param>
+        /// <param name="pawn"></param>
+        internal static void Postfix(Building_SubcoreScanner __instance, Pawn pawn)
+        {
+            __instance.GetComp<CompPatternBase>().PatternName = pawn?.Name;
+        }
+    }
+
+    /// <summary>
     /// Harmony_Building_SubcoreScanner_Tick patches subcore scanners to use our component during ticks.
     /// </summary>
     [HarmonyPatch(typeof(Building_SubcoreScanner), nameof(Building_SubcoreScanner.Tick))]
     internal static class Harmony_Building_SubcoreScanner_Tick
     {
-        /// <summary>
-        /// Prefix stores the name of the current occupant for later use.
-        /// </summary>
-        /// <param name="__instance"></param>
-        /// <param name="__state"></param>
-        internal static void Prefix(Building_SubcoreScanner __instance)
-        {
-            __instance.GetComp<CompPatternInfo>().PatternName = __instance?.Occupant?.Name;
-        }
-
         /// <summary>
         /// Transpiler replaces the call to place the subcore with a modded call that also updates the subcore pattern.
         /// </summary>
@@ -55,10 +62,11 @@ namespace SubcoreInfo.Harmony
 
             if (scannerDef != null)
             {
-                Thing scanner = GenClosest.ClosestThing_Global(center, map.listerBuldingOfDefInProximity.GetForCell(center, 5, scannerDef));
-                CompPatternInfo scannerComp = scanner.TryGetComp<CompPatternInfo>();
-                CompSubcoreInfo subcoreComp = thing.TryGetComp<CompSubcoreInfo>();
-                subcoreComp.PatternName = scannerComp?.PatternName;
+                Thing scanner = GenClosest.ClosestThing_Global(center, map.listerThings.ThingsOfDef(scannerDef));
+                CompPatternBase scannerComp = ((Building_SubcoreScanner)scanner).GetComp<CompPatternBase>();
+                CompSubcoreInfo subcoreComp = ((ThingWithComps)thing).GetComp<CompSubcoreInfo>();
+                subcoreComp.PatternName = scannerComp.PatternName;
+                scannerComp.PatternName = null;
             }
 
             return GenPlace.TryPlaceThing(thing, center, map, mode);

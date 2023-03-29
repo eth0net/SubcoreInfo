@@ -20,14 +20,5 @@ namespace SubcoreInfo.Comps
             Scribe_Values.Look(ref Disassembling, "disassembling");
             base.PostExposeData();
         }
-
-        /// <summary>
-        /// Reset allows the component to be reset for reuse.
-        /// </summary>
-        public new void Reset()
-        {
-            base.Reset();
-            Disassembling = false;
-        }
     }
 }
