@@ -37,7 +37,7 @@ namespace SubcoreInfo.Harmony
         /// <returns></returns>
         internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) => instructions.MethodReplacer(
             AccessTools.Method(typeof(GenPlace), nameof(GenPlace.TryPlaceThing), new Type[] { typeof(Thing), typeof(IntVec3), typeof(Map), typeof(ThingPlaceMode), typeof(Action<Thing, int>), typeof(Predicate<IntVec3>), typeof(Rot4) }),
-            AccessTools.Method(typeof(Harmony_Building_SubcoreScanner_Tick), nameof(Harmony_Building_SubcoreScanner_Tick.TryUpdateAndPlaceSubcore))
+            AccessTools.Method(typeof(Harmony_Building_SubcoreScanner_Tick), nameof(TryUpdateAndPlaceSubcore))
         );
 
         /// <summary>
@@ -55,8 +55,8 @@ namespace SubcoreInfo.Harmony
         {
             ThingDef scannerDef = thing.def.defName switch
             {
-                "SubcoreRegular" => ThingDef.Named("SubcoreSoftscanner"),
-                "SubcoreHigh" => ThingDef.Named("SubcoreRipscanner"),
+                "SubcoreRegular" => ThingDefOf.SubcoreSoftscanner,
+                "SubcoreHigh" => ThingDefOf.SubcoreRipscanner,
                 _ => null
             };
 
