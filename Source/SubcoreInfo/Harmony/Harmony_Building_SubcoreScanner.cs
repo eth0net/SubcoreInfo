@@ -1,26 +1,12 @@
 ﻿using HarmonyLib;
 using RimWorld;
 using SubcoreInfo.Comps;
+using System;
+using System.Collections.Generic;
 using Verse;
 
 namespace SubcoreInfo.Harmony
 {
-    /// <summary>
-    /// Harmony_Building_SubcoreScanner_EjectContents patches subcore scanners to use our component during ejects.
-    /// </summary>
-    [HarmonyPatch(typeof(Building_SubcoreScanner), nameof(Building_SubcoreScanner.EjectContents))]
-    internal static class Harmony_Building_SubcoreScanner_EjectContents
-    {
-        /// <summary>
-        /// Postfix patches subcore scanners to update our component after ejecting their contents.
-        /// </summary>
-        /// <param name="__instance"></param>
-        internal static void Postfix(Building_SubcoreScanner __instance)
-        {
-            __instance.GetComp<CompEjected>().Ejected = true;
-        }
-    }
-
     /// <summary>
     /// Harmony_Building_SubcoreScanner_Tick patches subcore scanners to use our component during ticks.
     /// </summary>
@@ -32,52 +18,50 @@ namespace SubcoreInfo.Harmony
         /// </summary>
         /// <param name="__instance"></param>
         /// <param name="__state"></param>
-        internal static void Prefix(Building_SubcoreScanner __instance, ref Name __state)
+        internal static void Prefix(Building_SubcoreScanner __instance)
         {
-            __state = __instance?.Occupant?.Name;
+            __instance.GetComp<CompPatternInfo>().PatternName = __instance?.Occupant?.Name;
         }
 
         /// <summary>
-        /// Postfix attempts to update the subcore if one was just ejected by the scanner.
+        /// Transpiler replaces the call to place the subcore with a modded call that also updates the subcore pattern.
         /// </summary>
-        /// <param name="__instance"></param>
-        /// <param name="__state"></param>
-        internal static void Postfix(Building_SubcoreScanner __instance, Name __state)
-        {
-            bool ejected = __instance.GetComp<CompEjected>().Ejected;
-            if (!ejected) { return; }
-
-            CompSubcoreInfo comp = TryGetSubcoreComp(__instance);
-            if (comp == null) { return; }
-
-            comp.PatternName = __state;
-        }
-
-        /// <summary>
-        /// Try to find the subcore ejected from the scanner and return the component for it.
-        /// </summary>
-        /// <param name="scanner"></param>
+        /// <param name="instructions"></param>
         /// <returns></returns>
-        static CompSubcoreInfo TryGetSubcoreComp(Building_SubcoreScanner scanner)
+        internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) => instructions.MethodReplacer(
+            AccessTools.Method(typeof(GenPlace), nameof(GenPlace.TryPlaceThing), new Type[] { typeof(Thing), typeof(IntVec3), typeof(Map), typeof(ThingPlaceMode), typeof(Action<Thing, int>), typeof(Predicate<IntVec3>), typeof(Rot4) }),
+            AccessTools.Method(typeof(Harmony_Building_SubcoreScanner_Tick), nameof(Harmony_Building_SubcoreScanner_Tick.TryUpdateAndPlaceSubcore))
+        );
+
+        /// <summary>
+        /// TryUpdateAndPlaceSubcore attempts to update the subcore info and place it in the world.
+        /// </summary>
+        /// <param name="thing"></param>
+        /// <param name="center"></param>
+        /// <param name="map"></param>
+        /// <param name="mode"></param>
+        /// <param name="placedAction"></param>
+        /// <param name="nearPlaceValidator"></param>
+        /// <param name="rot"></param>
+        /// <returns></returns>
+        static bool TryUpdateAndPlaceSubcore(Thing thing, IntVec3 center, Map map, ThingPlaceMode mode, Action<Thing, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null, Rot4 rot = default(Rot4))
         {
-            ThingDef subcoreDef = scanner.def.defName switch
+            ThingDef scannerDef = thing.def.defName switch
             {
-                "SubcoreSoftscanner" => ThingDef.Named("SubcoreRegular"),
-                "SubcoreRipscanner" => ThingDef.Named("SubcoreHigh"),
+                "SubcoreRegular" => ThingDef.Named("SubcoreSoftscanner"),
+                "SubcoreHigh" => ThingDef.Named("SubcoreRipscanner"),
                 _ => null
             };
 
-            if (subcoreDef == null) { return null; }
-
-            static bool validator(Thing subcore)
+            if (scannerDef != null)
             {
-                CompSubcoreInfo comp = subcore.TryGetComp<CompSubcoreInfo>();
-                return comp != null && comp.PatternName == null;
+                Thing scanner = GenClosest.ClosestThing_Global(center, map.listerBuldingOfDefInProximity.GetForCell(center, 5, scannerDef));
+                CompPatternInfo scannerComp = scanner.TryGetComp<CompPatternInfo>();
+                CompSubcoreInfo subcoreComp = thing.TryGetComp<CompSubcoreInfo>();
+                subcoreComp.PatternName = scannerComp?.PatternName;
             }
 
-            Thing subcore = GenClosest.ClosestThing_Global(scanner.InteractionCell, scanner.Map.listerThings.ThingsOfDef(subcoreDef), 9999, validator);
-
-            return subcore?.TryGetComp<CompSubcoreInfo>();
+            return GenPlace.TryPlaceThing(thing, center, map, mode);
         }
     }
 }

@@ -58,7 +58,6 @@
     <Compile Include="Comps\CompPatternInfo.cs" />
     <Compile Include="Comps\CompMechInfo.cs" />
     <Compile Include="Comps\CompSubcoreInfo.cs" />
-    <Compile Include="Comps\CompEjected.cs" />
     <Compile Include="Harmony\Harmony_Building_MechGestator.cs" />
     <Compile Include="Harmony\Harmony_Building_SubcoreScanner.cs" />
     <Compile Include="Harmony\Harmony_JobDriver_DisassembleMech.cs" />
