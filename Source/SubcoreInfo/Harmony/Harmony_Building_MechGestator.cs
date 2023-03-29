@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
 using RimWorld;
 using SubcoreInfo.Comps;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using Verse;
 
@@ -13,32 +15,53 @@ namespace SubcoreInfo.Harmony
     internal static class Harmony_Building_MechGestator_Notify_AllGestationCyclesCompleted
     {
         /// <summary>
-        /// Prefix stores the subcore pattern for later use.
+        /// Transpiler replaces the call to add the mechanoid with a modded call that also updates the mechanoid pattern.
         /// </summary>
-        /// <param name="__instance"></param>
-        /// <param name="__state"></param>
-        internal static void Prefix(Building_MechGestator __instance, ref Name __state)
+        /// <param name="instructions"></param>
+        /// <returns></returns>
+        internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) => instructions.MethodReplacer(
+            AccessTools.Method(typeof(ThingOwner), nameof(ThingOwner.ClearAndDestroyContents), new Type[] { typeof(DestroyMode) }),
+            AccessTools.Method(typeof(Harmony_Building_MechGestator_Notify_AllGestationCyclesCompleted), nameof(UpdateThenClearAndDestroyContents))
+        ).MethodReplacer(
+            AccessTools.Method(typeof(ThingOwner), nameof(ThingOwner.TryAdd), new Type[] { typeof(Thing), typeof(bool) }),
+            AccessTools.Method(typeof(Harmony_Building_MechGestator_Notify_AllGestationCyclesCompleted), nameof(TryUpdateAndAddPawn))
+        );
+
+        /// <summary>
+        /// UpdateThenClearAndDestroyContents stores the pattern name before clearing the contents.
+        /// </summary>
+        /// <param name="owner"></param>
+        /// <param name="mode"></param>
+        static void UpdateThenClearAndDestroyContents(ThingOwner owner, DestroyMode mode = DestroyMode.Vanish)
         {
-            Thing subcore = __instance.innerContainer.FirstOrDefault(HasCompSubcoreInfo);
-            if (subcore == null) { return; }
+            Thing subcore = owner.FirstOrDefault(HasCompSubcoreInfo);
 
-            CompSubcoreInfo subcoreComp = subcore.TryGetComp<CompSubcoreInfo>();
-            if (subcoreComp == null) { return; }
+            if (subcore != null)
+            {
+                CompPatternBase gestatorComp = ((Building_MechGestator)owner.Owner).GetComp<CompPatternBase>();
+                CompSubcoreInfo subcoreComp = ((ThingWithComps)subcore).GetComp<CompSubcoreInfo>();
+                gestatorComp.PatternName = subcoreComp.PatternName;
+            }
 
-            __state = subcoreComp.PatternName;
+            owner.ClearAndDestroyContents(mode);
         }
 
         /// <summary>
-        /// Postfix copies data from the subcore to the new mech.
+        /// TryUpdateAndAddPawn updates the mech pattern before adding it.
         /// </summary>
-        /// <param name="__instance"></param>
-        /// <param name="__state"></param>
-        internal static void Postfix(Building_MechGestator __instance, Name __state)
+        /// <param name="owner"></param>
+        /// <param name="thing"></param>
+        /// <param name="canMergeWithExistingStacks"></param>
+        /// <returns></returns>
+        static bool TryUpdateAndAddPawn(ThingOwner owner, Thing thing, bool canMergeWithExistingStacks = true)
         {
-            CompMechInfo mechComp = __instance.GestatingMech.GetComp<CompMechInfo>();
-            if (mechComp == null) { return; }
+            CompPatternBase gestatorComp = ((Building_MechGestator)owner.Owner).GetComp<CompPatternBase>();
+            CompMechInfo mechComp = ((ThingWithComps)thing).GetComp<CompMechInfo>();
 
-            mechComp.PatternName = __state;
+            mechComp.PatternName = gestatorComp.PatternName;
+            gestatorComp.PatternName = null;
+
+            return owner.TryAdd(thing, canMergeWithExistingStacks);
         }
 
         static bool HasCompSubcoreInfo(Thing thing) => thing?.TryGetComp<CompSubcoreInfo>() != null;
