@@ -40,7 +40,7 @@ namespace SubcoreInfo.Harmony
             {
                 CompPatternBase gestatorComp = ((Building_MechGestator)owner.Owner).GetComp<CompPatternBase>();
                 CompSubcoreInfo subcoreComp = ((ThingWithComps)subcore).GetComp<CompSubcoreInfo>();
-                gestatorComp.PatternName = subcoreComp.PatternName;
+                gestatorComp.Copy(subcoreComp);
             }
 
             owner.ClearAndDestroyContents(mode);
@@ -58,8 +58,8 @@ namespace SubcoreInfo.Harmony
             CompPatternBase gestatorComp = ((Building_MechGestator)owner.Owner).GetComp<CompPatternBase>();
             CompMechInfo mechComp = ((ThingWithComps)thing).GetComp<CompMechInfo>();
 
-            mechComp.PatternName = gestatorComp.PatternName;
-            gestatorComp.PatternName = null;
+            mechComp.Copy(gestatorComp);
+            gestatorComp.Reset();
 
             return owner.TryAdd(thing, canMergeWithExistingStacks);
         }

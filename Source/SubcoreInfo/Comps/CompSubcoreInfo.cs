@@ -22,7 +22,7 @@ namespace SubcoreInfo.Comps
             CompSubcoreInfo otherComp = other?.TryGetComp<CompSubcoreInfo>();
             if (otherComp == null) { return false; }
 
-            return PatternName == otherComp.PatternName;
+            return PatternName == otherComp.PatternName && TitleName == otherComp.TitleName && FactionName == otherComp.FactionName;
         }
 
         /// <summary>
@@ -43,6 +43,7 @@ namespace SubcoreInfo.Comps
             RulePackDef raceNameGenerator = pawnKind.RaceProps.GetNameGenerator(gender);
 
             PatternName = PawnBioAndNameGenerator.GenerateFullPawnName(parent.def, pawnKindNameMaker, null, null, raceNameGenerator, null, gender);
+            FactionName = forFaction.Name;
         }
     }
 }

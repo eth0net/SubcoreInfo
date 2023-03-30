@@ -33,6 +33,18 @@ namespace SubcoreInfo
 
             listing.Begin(inRect);
 
+            listing.GapLine();
+            listing.Label("Interface Settings");
+            listing.GapLine();
+
+            listing.CheckboxLabeled("Show pawn full name", ref SubcoreInfoSettings.showFullName);
+            listing.CheckboxLabeled("Show pawn title", ref SubcoreInfoSettings.showTitle);
+            listing.CheckboxLabeled("Show pawn faction", ref SubcoreInfoSettings.showFaction);
+
+            listing.GapLine();
+            listing.Label("Misc Settings");
+            listing.GapLine();
+
             listing.CheckboxLabeled("Separate subcore stacks by pattern", ref SubcoreInfoSettings.separatePatternStacks);
             listing.CheckboxLabeled("Random patterns on trader subcores", ref SubcoreInfoSettings.randomTraderPatterns);
 

@@ -15,6 +15,21 @@ namespace SubcoreInfo
         public static bool randomTraderPatterns = true;
 
         /// <summary>
+        /// Show pawn full name in the subcore info oanel.
+        /// </summary>
+        public static bool showFullName = true;
+
+        /// <summary>
+        /// Show pawn title in the subcore info panel.
+        /// </summary>
+        public static bool showTitle = true;
+
+        /// <summary>
+        /// Show pawn faction in the subcore info panel.
+        /// </summary>
+        public static bool showFaction = true;
+
+        /// <summary>
         /// ExposeData saves and loads the settings.
         /// </summary>
         public override void ExposeData()

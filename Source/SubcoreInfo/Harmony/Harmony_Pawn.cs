@@ -26,7 +26,7 @@ namespace SubcoreInfo.Harmony
             CompSubcoreInfo subcoreComp = TryGetSubcoreComp(__instance);
             if (subcoreComp == null) { return; }
 
-            subcoreComp.PatternName = mechComp.PatternName;
+            subcoreComp.Copy(mechComp);
             mechComp.Disassembling = false;
         }
 
@@ -44,7 +44,7 @@ namespace SubcoreInfo.Harmony
             {
                 CompSubcoreInfo comp = subcore.TryGetComp<CompSubcoreInfo>();
                 if (comp == null) { return false; }
-                return comp.PatternName == null;
+                return comp.PatternName == null && comp.TitleName == null && comp.FactionName == null;
             }
 
             Thing subcore = GenClosest.ClosestThingReachable(mech.Position, mech.Map, ThingRequest.ForDef(subcoreClass.thingDef), PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.ByPawn), 9999, validator);
