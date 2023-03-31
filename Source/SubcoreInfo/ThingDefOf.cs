@@ -4,7 +4,7 @@ using Verse;
 namespace SubcoreInfo
 {
     [DefOf]
-    internal static class ThingDefOf
+    public static class ThingDefOf
     {
         [MayRequireBiotech]
         public static ThingDef SubcoreSoftscanner;

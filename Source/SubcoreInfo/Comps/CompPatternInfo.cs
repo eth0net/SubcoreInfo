@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using Verse;
 
 namespace SubcoreInfo.Comps
@@ -41,6 +42,28 @@ namespace SubcoreInfo.Comps
             }
 
             return sb.ToString().TrimEnd();
+        }
+
+        public override IEnumerable<RimWorld.StatDrawEntry> SpecialDisplayStats()
+        {
+            if (SubcoreInfoSettings.showFullName)
+            {
+                yield return new RimWorld.StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textName, PatternName?.ToStringFull ?? textUnknown, "The full name of the pawn scanned to make this subcore.", 40);
+            }
+            else
+            {
+                yield return new RimWorld.StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textName, PatternName?.ToStringShort ?? textUnknown, "The short name of the pawn scanned to make this subcore.", 30);
+            }
+
+            if (SubcoreInfoSettings.showTitle)
+            {
+                yield return new RimWorld.StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textTitle, TitleName ?? textUnknown, "The title of the pawn scanned to make this subcore.", 20);
+            }
+
+            if (SubcoreInfoSettings.showFaction)
+            {
+                yield return new RimWorld.StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textFaction, FactionName ?? textUnknown, "The faction of the pawn scanned to make this subcore.", 10);
+            }
         }
     }
 }

@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Comps\CompPatternBase.cs" />
+    <Compile Include="StatCategoryDefOf.cs" />
     <Compile Include="SubcoreInfo.cs" />
     <Compile Include="Comps\CompPatternInfo.cs" />
     <Compile Include="Comps\CompMechInfo.cs" />
