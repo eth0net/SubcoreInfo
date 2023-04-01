@@ -20,10 +20,7 @@ namespace SubcoreInfo.Harmony
         /// <param name="pawn"></param>
         internal static void Postfix(Building_SubcoreScanner __instance, Pawn pawn)
         {
-            CompPatternBase comp = __instance.GetComp<CompPatternBase>();
-            comp.PatternName = pawn?.Name;
-            comp.FactionName = pawn?.Faction?.Name;
-            comp.TitleName = pawn?.royalty?.MainTitle()?.GetLabelCapFor(pawn);
+            __instance.GetComp<CompPatternBase>().Copy(pawn);
         }
     }
 

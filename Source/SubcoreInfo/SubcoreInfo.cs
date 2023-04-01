@@ -37,9 +37,16 @@ namespace SubcoreInfo
             listing.Label("Interface Settings");
             listing.GapLine();
 
+            if (ModsConfig.RoyaltyActive)
+            {
+                listing.CheckboxLabeled("Show pawn title", ref SubcoreInfoSettings.showTitle);
+            }
             listing.CheckboxLabeled("Show pawn full name", ref SubcoreInfoSettings.showFullName);
-            listing.CheckboxLabeled("Show pawn title", ref SubcoreInfoSettings.showTitle);
             listing.CheckboxLabeled("Show pawn faction", ref SubcoreInfoSettings.showFaction);
+            if (ModsConfig.IdeologyActive)
+            {
+                listing.CheckboxLabeled("Show pawn ideoligion", ref SubcoreInfoSettings.showIdeo);
+            }
 
             listing.GapLine();
             listing.Label("Misc Settings");

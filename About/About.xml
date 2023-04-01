@@ -14,6 +14,7 @@ This mod was inspired by the wonderful Mr Samuel Streamer and his Biotech series
 == Features ==
 
 - Subcores and mechs store info about scanned pawns
+- Stored info: Title, Name, Faction, and Ideology
 - Info is shown in the tooltip for subcores and mechs
 - Scanning a pawn saves their info to the subcore
 - Subcores from traders get random info generated

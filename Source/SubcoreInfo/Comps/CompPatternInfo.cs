@@ -9,9 +9,10 @@ namespace SubcoreInfo.Comps
     /// </summary>
     public class CompPatternInfo : CompPatternBase
     {
-        static TaggedString textName = "Name".Translate();
         static TaggedString textTitle = "Title".Translate();
+        static TaggedString textName = "Name".Translate();
         static TaggedString textFaction = "Faction".Translate();
+        static TaggedString textIdeo = "Ideoligion".Translate();
         static TaggedString textUnknown = "Unknown".Translate();
 
         /// <summary>
@@ -22,18 +23,18 @@ namespace SubcoreInfo.Comps
         {
             StringBuilder sb = new StringBuilder();
 
+            if (SubcoreInfoSettings.showTitle && ModsConfig.RoyaltyActive)
+            {
+                sb.AppendLine(textTitle + ": " + (TitleName ?? textUnknown));
+            }
+
             if (SubcoreInfoSettings.showFullName)
             {
-                sb.AppendLine(textName + ": " + (PatternName?.ToStringFull ?? textUnknown));
+                sb.AppendLine(textName + ": " + (PawnName?.ToStringFull ?? textUnknown));
             }
             else
             {
-                sb.AppendLine(textName + ": " + (PatternName?.ToStringShort ?? textUnknown));
-            }
-
-            if (SubcoreInfoSettings.showTitle)
-            {
-                sb.AppendLine(textTitle + ": " + (TitleName ?? textUnknown));
+                sb.AppendLine(textName + ": " + (PawnName?.ToStringShort ?? textUnknown));
             }
 
             if (SubcoreInfoSettings.showFaction)
@@ -41,28 +42,28 @@ namespace SubcoreInfo.Comps
                 sb.AppendLine(textFaction + ": " + (FactionName ?? textUnknown));
             }
 
+            if (SubcoreInfoSettings.showIdeo && ModsConfig.IdeologyActive)
+            {
+                sb.AppendLine(textIdeo + ": " + (IdeoName ?? textUnknown));
+            }
+
             return sb.ToString().TrimEnd();
         }
 
         public override IEnumerable<RimWorld.StatDrawEntry> SpecialDisplayStats()
         {
-            if (SubcoreInfoSettings.showFullName)
+            if (ModsConfig.RoyaltyActive)
             {
-                yield return new RimWorld.StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textName, PatternName?.ToStringFull ?? textUnknown, "The full name of the pawn scanned to make this subcore.", 40);
-            }
-            else
-            {
-                yield return new RimWorld.StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textName, PatternName?.ToStringShort ?? textUnknown, "The short name of the pawn scanned to make this subcore.", 30);
+                yield return new RimWorld.StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textTitle, TitleName ?? textUnknown, "The title of the pawn scanned to make this subcore.", 50);
             }
 
-            if (SubcoreInfoSettings.showTitle)
-            {
-                yield return new RimWorld.StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textTitle, TitleName ?? textUnknown, "The title of the pawn scanned to make this subcore.", 20);
-            }
+            yield return new RimWorld.StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textName, PawnName?.ToStringFull ?? textUnknown, "The full name of the pawn scanned to make this subcore.", 40);
 
-            if (SubcoreInfoSettings.showFaction)
+            yield return new RimWorld.StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textFaction, FactionName ?? textUnknown, "The faction of the pawn scanned to make this subcore.", 20);
+
+            if (ModsConfig.IdeologyActive)
             {
-                yield return new RimWorld.StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textFaction, FactionName ?? textUnknown, "The faction of the pawn scanned to make this subcore.", 10);
+                yield return new RimWorld.StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textIdeo, IdeoName ?? textUnknown, "The ideoligion of the pawn scanned to make this subcore.", 10);
             }
         }
     }
