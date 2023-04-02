@@ -22,7 +22,7 @@ namespace SubcoreInfo.Comps
         /// <returns></returns>
         public override string CompInspectStringExtra()
         {
-            StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new();
 
             if (SubcoreInfoSettings.showTitle && ModsConfig.RoyaltyActive)
             {
@@ -57,23 +57,18 @@ namespace SubcoreInfo.Comps
         /// <returns></returns>
         public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
         {
-            foreach (StatDrawEntry entry in base.SpecialDisplayStats())
-            {
-                yield return entry;
-            }
-
             if (ModsConfig.RoyaltyActive)
             {
-                yield return new StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textTitle, TitleName ?? textUnknown, "The title of the pawn scanned to make this subcore.", 50);
+                yield return new(StatCategoryDefOf.SubcoreInfo, textTitle, TitleName ?? textUnknown, "The title of the pawn scanned to make this subcore.", 403);
             }
 
-            yield return new StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textName, PawnName?.ToStringFull ?? textUnknown, "The full name of the pawn scanned to make this subcore.", 40);
+            yield return new(StatCategoryDefOf.SubcoreInfo, textName, PawnName?.ToStringFull ?? textUnknown, "The full name of the pawn scanned to make this subcore.", 402);
 
-            yield return new StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textFaction, FactionName ?? textUnknown, "The faction of the pawn scanned to make this subcore.", 20);
+            yield return new(StatCategoryDefOf.SubcoreInfo, textFaction, FactionName ?? textUnknown, "The faction of the pawn scanned to make this subcore.", 401);
 
             if (ModsConfig.IdeologyActive)
             {
-                yield return new StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textIdeo, IdeoName ?? textUnknown, "The ideoligion of the pawn scanned to make this subcore.", 10);
+                yield return new(StatCategoryDefOf.SubcoreInfo, textIdeo, IdeoName ?? textUnknown, "The ideoligion of the pawn scanned to make this subcore.", 400);
             }
         }
     }
