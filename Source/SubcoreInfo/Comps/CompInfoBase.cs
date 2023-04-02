@@ -2,7 +2,7 @@
 
 namespace SubcoreInfo.Comps
 {
-    public class CompPatternBase : ThingComp
+    public class CompInfoBase : CompBase
     {
         /// <summary>
         /// TitleName tracks the title of the pawn scanned.
@@ -40,7 +40,7 @@ namespace SubcoreInfo.Comps
         /// Copy the data from a pawn into this comp to ease data transfer.
         /// </summary>
         /// <param name="pawn"></param>
-        public void Copy(Pawn pawn)
+        public override void Copy(Pawn pawn)
         {
             TitleName = pawn?.royalty?.MainTitle()?.GetLabelCapFor(pawn);
             PawnName = pawn?.Name;
@@ -51,19 +51,22 @@ namespace SubcoreInfo.Comps
         /// <summary>
         /// Copy the data from another comp into this one to ease data transfer.
         /// </summary>
-        /// <param name="src"></param>
-        public void Copy(CompPatternBase src)
+        /// <param name="other"></param>
+        public override void Copy(CompBase other)
         {
-            TitleName = src.TitleName;
-            PawnName = src.PawnName;
-            FactionName = src.FactionName;
-            IdeoName = src.IdeoName;
+            if (other is CompInfoBase comp)
+            {
+                TitleName = comp.TitleName;
+                PawnName = comp.PawnName;
+                FactionName = comp.FactionName;
+                IdeoName = comp.IdeoName;
+            }
         }
 
         /// <summary>
         /// Reset clears all data in this comp.
         /// </summary>
-        public void Reset()
+        public override void Reset()
         {
             TitleName = null;
             PawnName = null;

@@ -38,9 +38,7 @@ namespace SubcoreInfo.Harmony
 
             if (subcore != null)
             {
-                CompPatternBase gestatorComp = ((Building_MechGestator)owner.Owner).GetComp<CompPatternBase>();
-                CompSubcoreInfo subcoreComp = ((ThingWithComps)subcore).GetComp<CompSubcoreInfo>();
-                gestatorComp.Copy(subcoreComp);
+                SubcoreInfoUtility.CopySubcoreInfo(subcore as ThingWithComps, owner.Owner as ThingWithComps);
             }
 
             owner.ClearAndDestroyContents(mode);
@@ -55,11 +53,7 @@ namespace SubcoreInfo.Harmony
         /// <returns></returns>
         static bool TryUpdateAndAddPawn(ThingOwner owner, Thing thing, bool canMergeWithExistingStacks = true)
         {
-            CompPatternBase gestatorComp = ((Building_MechGestator)owner.Owner).GetComp<CompPatternBase>();
-            CompMechInfo mechComp = ((ThingWithComps)thing).GetComp<CompMechInfo>();
-
-            mechComp.Copy(gestatorComp);
-            gestatorComp.Reset();
+            SubcoreInfoUtility.CopySubcoreInfo(owner.Owner as ThingWithComps, thing as ThingWithComps);
 
             return owner.TryAdd(thing, canMergeWithExistingStacks);
         }

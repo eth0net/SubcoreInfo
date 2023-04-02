@@ -23,19 +23,18 @@ namespace SubcoreInfo.Harmony
             CompMechInfo mechComp = __instance.GetComp<CompMechInfo>();
             if (mechComp == null || !mechComp.Disassembling) { return; }
 
-            CompSubcoreInfo subcoreComp = TryGetSubcoreComp(__instance);
-            if (subcoreComp == null) { return; }
+            Thing subcore = TryGetSubcore(__instance);
+            if (subcore == null) { return; }
 
-            subcoreComp.Copy(mechComp);
-            mechComp.Disassembling = false;
+            SubcoreInfoUtility.CopySubcoreInfo(__instance, subcore as ThingWithComps);
         }
 
         /// <summary>
-        /// Try to find the subcore dropped during disassembly and return the component for it.
+        /// Try to find the subcore dropped during disassembly and return it.
         /// </summary>
         /// <param name="scanner"></param>
         /// <returns></returns>
-        static CompSubcoreInfo TryGetSubcoreComp(Pawn mech)
+        static Thing TryGetSubcore(Pawn mech)
         {
             ThingDefCountClass subcoreClass = MechanitorUtility.IngredientsFromDisassembly(mech.def).FirstOrDefault((ThingDefCountClass thing) => thing.thingDef.defName == "SubcoreRegular" || thing.thingDef.defName == "SubcoreHigh");
             if (subcoreClass == null) { return null; }
@@ -47,9 +46,7 @@ namespace SubcoreInfo.Harmony
                 return comp.PawnName == null && comp.TitleName == null && comp.FactionName == null;
             }
 
-            Thing subcore = GenClosest.ClosestThingReachable(mech.Position, mech.Map, ThingRequest.ForDef(subcoreClass.thingDef), PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.ByPawn), 9999, validator);
-
-            return subcore?.TryGetComp<CompSubcoreInfo>() ?? null;
+            return GenClosest.ClosestThingReachable(mech.Position, mech.Map, ThingRequest.ForDef(subcoreClass.thingDef), PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.ByPawn), 9999, validator);
         }
     }
 }

@@ -5,7 +5,7 @@ using Verse;
 namespace SubcoreInfo
 {
     /// <summary>
-    /// SubcoreInfo static class to load up the mod and initialise everything.
+    /// SubcoreInfo class to load up the mod and initialise everything.
     /// </summary>
     public class SubcoreInfo : Mod
     {
@@ -15,7 +15,8 @@ namespace SubcoreInfo
         internal static SubcoreInfoSettings settings;
 
         /// <summary>
-        /// SubcoreInfo constructor to patch things using harmony.
+        /// SubcoreInfo constructor to load the mod and settings.
+        /// Also applies patches using harmony.
         /// </summary>
         public SubcoreInfo(ModContentPack content) : base(content)
         {
@@ -52,8 +53,8 @@ namespace SubcoreInfo
             listing.Label("Misc Settings");
             listing.GapLine();
 
-            listing.CheckboxLabeled("Separate subcore stacks by pattern", ref SubcoreInfoSettings.separatePatternStacks);
-            listing.CheckboxLabeled("Random patterns on trader subcores", ref SubcoreInfoSettings.randomTraderPatterns);
+            listing.CheckboxLabeled("Separate subcore stacks by pattern", ref SubcoreInfoSettings.separateStacks);
+            listing.CheckboxLabeled("Random patterns on trader subcores", ref SubcoreInfoSettings.randomTraderInfo);
 
             listing.End();
 

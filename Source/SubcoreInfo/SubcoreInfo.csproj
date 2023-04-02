@@ -54,19 +54,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Comps\CompPatternBase.cs" />
-    <Compile Include="StatCategoryDefOf.cs" />
-    <Compile Include="SubcoreInfo.cs" />
-    <Compile Include="Comps\CompPatternInfo.cs" />
+    <Compile Include="Comps\CompBase.cs" />
+    <Compile Include="Comps\CompDisplayInfo.cs" />
+    <Compile Include="Comps\CompInfoBase.cs" />
     <Compile Include="Comps\CompMechInfo.cs" />
     <Compile Include="Comps\CompSubcoreInfo.cs" />
     <Compile Include="Harmony\Harmony_Building_MechGestator.cs" />
     <Compile Include="Harmony\Harmony_Building_SubcoreScanner.cs" />
     <Compile Include="Harmony\Harmony_JobDriver_DisassembleMech.cs" />
     <Compile Include="Harmony\Harmony_Pawn.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatCategoryDefOf.cs" />
+    <Compile Include="SubcoreInfo.cs" />
     <Compile Include="SubcoreInfoSettings.cs" />
+    <Compile Include="SubcoreInfoUtility.cs" />
     <Compile Include="ThingDefOf.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

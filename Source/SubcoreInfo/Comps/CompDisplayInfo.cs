@@ -1,13 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using RimWorld;
+using System.Collections.Generic;
 using System.Text;
 using Verse;
 
 namespace SubcoreInfo.Comps
 {
     /// <summary>
-    /// CompPatternInfo implements the common inspect method for pattern components.
+    /// CompDisplayInfo implements the common display methods for subcore info components.
     /// </summary>
-    public class CompPatternInfo : CompPatternBase
+    public class CompDisplayInfo : CompInfoBase
     {
         static TaggedString textTitle = "Title".Translate();
         static TaggedString textName = "Name".Translate();
@@ -50,20 +51,29 @@ namespace SubcoreInfo.Comps
             return sb.ToString().TrimEnd();
         }
 
-        public override IEnumerable<RimWorld.StatDrawEntry> SpecialDisplayStats()
+        /// <summary>
+        /// SpecialDisplayStats adds to the item info pane.
+        /// </summary>
+        /// <returns></returns>
+        public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
         {
-            if (ModsConfig.RoyaltyActive)
+            foreach (StatDrawEntry entry in base.SpecialDisplayStats())
             {
-                yield return new RimWorld.StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textTitle, TitleName ?? textUnknown, "The title of the pawn scanned to make this subcore.", 50);
+                yield return entry;
             }
 
-            yield return new RimWorld.StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textName, PawnName?.ToStringFull ?? textUnknown, "The full name of the pawn scanned to make this subcore.", 40);
+            if (ModsConfig.RoyaltyActive)
+            {
+                yield return new StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textTitle, TitleName ?? textUnknown, "The title of the pawn scanned to make this subcore.", 50);
+            }
 
-            yield return new RimWorld.StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textFaction, FactionName ?? textUnknown, "The faction of the pawn scanned to make this subcore.", 20);
+            yield return new StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textName, PawnName?.ToStringFull ?? textUnknown, "The full name of the pawn scanned to make this subcore.", 40);
+
+            yield return new StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textFaction, FactionName ?? textUnknown, "The faction of the pawn scanned to make this subcore.", 20);
 
             if (ModsConfig.IdeologyActive)
             {
-                yield return new RimWorld.StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textIdeo, IdeoName ?? textUnknown, "The ideoligion of the pawn scanned to make this subcore.", 10);
+                yield return new StatDrawEntry(StatCategoryDefOf.SubcoreInfo, textIdeo, IdeoName ?? textUnknown, "The ideoligion of the pawn scanned to make this subcore.", 10);
             }
         }
     }

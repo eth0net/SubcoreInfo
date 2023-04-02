@@ -20,7 +20,7 @@ namespace SubcoreInfo.Harmony
         /// <param name="pawn"></param>
         internal static void Postfix(Building_SubcoreScanner __instance, Pawn pawn)
         {
-            __instance.GetComp<CompPatternBase>().Copy(pawn);
+            __instance.GetComp<CompInfoBase>().Copy(pawn);
         }
     }
 
@@ -63,10 +63,7 @@ namespace SubcoreInfo.Harmony
             if (scannerDef != null)
             {
                 Thing scanner = GenClosest.ClosestThing_Global(center, map.listerThings.ThingsOfDef(scannerDef));
-                CompPatternBase scannerComp = ((Building_SubcoreScanner)scanner).GetComp<CompPatternBase>();
-                CompSubcoreInfo subcoreComp = ((ThingWithComps)thing).GetComp<CompSubcoreInfo>();
-                subcoreComp.Copy(scannerComp);
-                scannerComp.Reset();
+                SubcoreInfoUtility.CopySubcoreInfo(scanner as ThingWithComps, thing as ThingWithComps);
             }
 
             return GenPlace.TryPlaceThing(thing, center, map, mode);

@@ -2,18 +2,8 @@
 
 namespace SubcoreInfo
 {
-    internal class SubcoreInfoSettings : ModSettings
+    public class SubcoreInfoSettings : ModSettings
     {
-        /// <summary>
-        /// Separate subcore stacks by pattern.
-        /// </summary>
-        public static bool separatePatternStacks = true;
-
-        /// <summary>
-        /// Generate random patterns for trader subcores.
-        /// </summary>
-        public static bool randomTraderPatterns = true;
-
         /// <summary>
         /// Show pawn title in the subcore info panel.
         /// </summary>
@@ -35,16 +25,26 @@ namespace SubcoreInfo
         public static bool showIdeo = true;
 
         /// <summary>
+        /// Separate subcore stacks by stored info.
+        /// </summary>
+        public static bool separateStacks = true;
+
+        /// <summary>
+        /// Generate random info for trader subcores.
+        /// </summary>
+        public static bool randomTraderInfo = true;
+
+        /// <summary>
         /// ExposeData saves and loads the settings.
         /// </summary>
         public override void ExposeData()
         {
-            Scribe_Values.Look(ref separatePatternStacks, "separatePatternStacks", true);
-            Scribe_Values.Look(ref randomTraderPatterns, "randomTraderPatterns", true);
             Scribe_Values.Look(ref showTitle, "showTitle", true);
             Scribe_Values.Look(ref showFullName, "showFullName", true);
             Scribe_Values.Look(ref showFaction, "showFaction", true);
             Scribe_Values.Look(ref showIdeo, "showIdeo", true);
+            Scribe_Values.Look(ref separateStacks, "separateStacks", true);
+            Scribe_Values.Look(ref randomTraderInfo, "randomTraderInfo", true);
             base.ExposeData();
         }
     }

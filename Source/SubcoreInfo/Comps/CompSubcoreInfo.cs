@@ -6,7 +6,7 @@ namespace SubcoreInfo.Comps
     /// <summary>
     /// CompSubcoreInfo is added to subcores and is used to track the pawn scanned into the subcore.
     /// </summary>
-    public class CompSubcoreInfo : CompPatternInfo
+    public class CompSubcoreInfo : CompDisplayInfo
     {
         /// <summary>
         /// AllowStackWith ensures that subcores can only be stacked with others of the same pattern.
@@ -17,7 +17,7 @@ namespace SubcoreInfo.Comps
         {
             if (!base.AllowStackWith(other)) { return false; }
 
-            if (!SubcoreInfoSettings.separatePatternStacks) { return true; }
+            if (!SubcoreInfoSettings.separateStacks) { return true; }
 
             CompSubcoreInfo otherComp = other?.TryGetComp<CompSubcoreInfo>();
             if (otherComp == null) { return false; }
@@ -35,15 +35,9 @@ namespace SubcoreInfo.Comps
         {
             base.PostPostGeneratedForTrader(trader, forTile, forFaction);
 
-            if (!SubcoreInfoSettings.randomTraderPatterns) { return; }
+            if (!SubcoreInfoSettings.randomTraderInfo) { return; }
 
-            Gender gender = Rand.Bool ? Gender.Male : Gender.Female;
-            PawnKindDef pawnKind = forFaction.RandomPawnKind();
-            RulePackDef pawnKindNameMaker = pawnKind.GetNameMaker(gender);
-            RulePackDef raceNameGenerator = pawnKind.RaceProps.GetNameGenerator(gender);
-
-            PawnName = PawnBioAndNameGenerator.GenerateFullPawnName(parent.def, pawnKindNameMaker, null, null, raceNameGenerator, null, gender);
-            FactionName = forFaction.Name;
+            Copy(PawnGenerator.GeneratePawn(forFaction.RandomPawnKind(), forFaction));
         }
     }
 }
