@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using System.Linq;
+using RimWorld;
 using Verse;
 
 namespace SubcoreInfo.Comps
@@ -26,6 +27,15 @@ namespace SubcoreInfo.Comps
         }
 
         /// <summary>
+        /// Checks if a random faction could be used to generate subcore information for traders.
+        /// </summary>
+        /// <param name="faction">Faction being considered.</param>
+        private static bool ValidRandomFaction(Faction faction)
+        {
+            return faction != null && !faction.IsPlayer && !faction.temporary && !faction.Hidden && faction.def.humanlikeFaction;
+        }
+
+        /// <summary>
         /// PostPostGeneratedForTrader is called after the subcore is generated for a trader.
         /// </summary>
         /// <param name="trader"></param>
@@ -37,7 +47,20 @@ namespace SubcoreInfo.Comps
 
             if (!SubcoreInfoSettings.randomTraderInfo) { return; }
 
-            Copy(PawnGenerator.GeneratePawn(forFaction.RandomPawnKind(), forFaction));
+            var pawnFaction = forFaction;
+            if (pawnFaction == null)
+            {
+                var randomFactions = Find.FactionManager.AllFactions.Where(ValidRandomFaction).ToList();
+                if (!randomFactions.NullOrEmpty())
+                {
+                    pawnFaction = randomFactions.RandomElement();
+                }
+            }
+
+            if (pawnFaction != null)
+            {
+                Copy(PawnGenerator.GeneratePawn(pawnFaction.RandomPawnKind(), forFaction));
+            }
         }
     }
 }
