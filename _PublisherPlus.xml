@@ -2,8 +2,11 @@
 <Configuration>
   <Excluded>
     <exclude>.git</exclude>
+    <exclude>.vs</exclude>
     <exclude>Images</exclude>
+    <exclude>packages</exclude>
     <exclude>Source</exclude>
+    <exclude>SubcoreInfo.sln</exclude>
     <exclude>SubcoreInfo.textstudio</exclude>
   </Excluded>
 </Configuration>
