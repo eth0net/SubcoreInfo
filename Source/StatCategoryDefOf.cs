@@ -1,11 +1,10 @@
 ﻿using RimWorld;
 
-namespace SubcoreInfo
+namespace SubcoreInfo;
+
+[DefOf]
+public static class StatCategoryDefOf
 {
-    [DefOf]
-    public static class StatCategoryDefOf
-    {
-        [MayRequireBiotech]
-        public static StatCategoryDef SubcoreInfo;
-    }
+    [MayRequireBiotech]
+    public static StatCategoryDef SubcoreInfo;
 }
