@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using RimWorld;
+﻿using RimWorld;
+using System.Linq;
 using Verse;
 
 namespace SubcoreInfo.Comps;
@@ -16,23 +16,27 @@ public class CompSubcoreInfo : CompDisplayInfo
     /// <returns></returns>
     public override bool AllowStackWith(Thing other)
     {
-        if (!base.AllowStackWith(other)) { return false; }
+        if (!base.AllowStackWith(other))
+        {
+            return false;
+        }
 
-        if (!SubcoreInfoSettings.separateStacks) { return true; }
+        if (!SubcoreInfoSettings.separateStacks)
+        {
+            return true;
+        }
 
         CompSubcoreInfo otherComp = other?.TryGetComp<CompSubcoreInfo>();
-        if (otherComp == null) { return false; }
+        if (otherComp == null)
+        {
+            return false;
+        }
 
-        return PawnName == otherComp.PawnName && TitleName == otherComp.TitleName && FactionName == otherComp.FactionName;
-    }
+        bool nameMatches = PawnName == otherComp.PawnName;
+        bool titleMatches = TitleName == otherComp.TitleName;
+        bool factionMatches = FactionName == otherComp.FactionName;
 
-    /// <summary>
-    /// Checks if a random faction could be used to generate subcore information for traders.
-    /// </summary>
-    /// <param name="faction">Faction being considered.</param>
-    private static bool ValidRandomFaction(Faction faction)
-    {
-        return faction != null && !faction.IsPlayer && !faction.temporary && !faction.Hidden && faction.def.humanlikeFaction;
+        return nameMatches && titleMatches && factionMatches;
     }
 
     /// <summary>
@@ -45,12 +49,15 @@ public class CompSubcoreInfo : CompDisplayInfo
     {
         base.PostPostGeneratedForTrader(trader, forTile, forFaction);
 
-        if (!SubcoreInfoSettings.randomTraderInfo) { return; }
+        if (!SubcoreInfoSettings.randomTraderInfo)
+        {
+            return;
+        }
 
         var pawnFaction = forFaction;
-        if (pawnFaction == null)
+        if (forFaction == null)
         {
-            var randomFactions = Find.FactionManager.AllFactions.Where(ValidRandomFaction).ToList();
+            var randomFactions = Find.FactionManager.AllFactions.Where(ValidFaction).ToList();
             if (!randomFactions.NullOrEmpty())
             {
                 pawnFaction = randomFactions.RandomElement();
@@ -61,5 +68,14 @@ public class CompSubcoreInfo : CompDisplayInfo
         {
             Copy(PawnGenerator.GeneratePawn(pawnFaction.RandomPawnKind(), forFaction));
         }
+    }
+
+    /// <summary>
+    /// ValidFaction checks if a faction could be used to generate subcore info for traders.
+    /// </summary>
+    /// <param name="faction">Faction being considered.</param>
+    private static bool ValidFaction(Faction faction)
+    {
+        return faction != null && !faction.IsPlayer && !faction.temporary && !faction.Hidden && faction.def.humanlikeFaction;
     }
 }

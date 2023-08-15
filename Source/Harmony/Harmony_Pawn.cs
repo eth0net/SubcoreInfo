@@ -18,13 +18,22 @@ internal static class Harmony_Pawn_Kill
     /// <param name="__instance"></param>
     internal static void Prefix(Pawn __instance)
     {
-        if (__instance == null || !__instance.IsColonyMech) { return; }
+        if (__instance == null || !__instance.IsColonyMech)
+        {
+            return;
+        }
 
         CompMechInfo mechComp = __instance.GetComp<CompMechInfo>();
-        if (mechComp == null || !mechComp.Disassembling) { return; }
+        if (mechComp == null || !mechComp.Disassembling)
+        {
+            return;
+        }
 
         Thing subcore = TryGetSubcore(__instance);
-        if (subcore == null) { return; }
+        if (subcore == null)
+        {
+            return;
+        }
 
         SubcoreInfoUtility.CopySubcoreInfo(__instance, subcore as ThingWithComps);
     }
@@ -37,12 +46,18 @@ internal static class Harmony_Pawn_Kill
     static Thing TryGetSubcore(Pawn mech)
     {
         ThingDefCountClass subcoreClass = MechanitorUtility.IngredientsFromDisassembly(mech.def).FirstOrDefault((ThingDefCountClass thing) => thing.thingDef.defName == "SubcoreRegular" || thing.thingDef.defName == "SubcoreHigh");
-        if (subcoreClass == null) { return null; }
+        if (subcoreClass == null)
+        {
+            return null;
+        }
 
         static bool validator(Thing subcore)
         {
             CompSubcoreInfo comp = subcore.TryGetComp<CompSubcoreInfo>();
-            if (comp == null) { return false; }
+            if (comp == null)
+            {
+                return false;
+            }
             return comp.PawnName == null && comp.TitleName == null && comp.FactionName == null;
         }
 

@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using RimWorld;
-using SubcoreInfo.Comps;
 using System;
 using System.Collections.Generic;
 using Verse;

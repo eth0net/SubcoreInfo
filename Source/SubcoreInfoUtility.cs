@@ -21,7 +21,11 @@ internal static class SubcoreInfoUtility
             {
                 dstComp.Copy(srcComp);
             }
-            if (reset) srcComp.Reset();
+
+            if (reset)
+            {
+                srcComp.Reset();
+            }
         }
     }
 }
