@@ -25,6 +25,7 @@ Track which unfortunate pawn your subcores came from!
 This mod is safe to add or remove from saves!
 
 Use this to add data to existing mechs or subcores in your save file:
+
 ```xml
 <titleName>Supreme Leader</titleName>
 <patternName Class="NameTriple">
