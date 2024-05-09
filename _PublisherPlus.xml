@@ -2,11 +2,15 @@
 <Configuration>
   <Excluded>
     <exclude>.git</exclude>
-    <exclude>.vs</exclude>
+    <exclude>1.4\.vs</exclude>
+    <exclude>1.4\packages</exclude>
+    <exclude>1.4\Source</exclude>
+    <exclude>1.4\SubcoreInfo.sln</exclude>
+    <exclude>1.5\.vs</exclude>
+    <exclude>1.5\packages</exclude>
+    <exclude>1.5\Source</exclude>
+    <exclude>1.5\SubcoreInfo.sln</exclude>
     <exclude>Images</exclude>
-    <exclude>packages</exclude>
-    <exclude>Source</exclude>
-    <exclude>SubcoreInfo.sln</exclude>
     <exclude>SubcoreInfo.textstudio</exclude>
   </Excluded>
 </Configuration>
