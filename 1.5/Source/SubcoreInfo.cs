@@ -55,6 +55,7 @@ public class SubcoreInfo : Mod
 
         listing.CheckboxLabeled("Separate subcore stacks by pattern", ref SubcoreInfoSettings.separateStacks);
         listing.CheckboxLabeled("Random patterns on trader subcores", ref SubcoreInfoSettings.randomTraderInfo);
+        listing.CheckboxLabeled("Mr Streamer Special mode", ref SubcoreInfoSettings.mrStreamerSpecial);
 
         listing.End();
 
