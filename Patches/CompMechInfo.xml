@@ -1,26 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
-  <!-- Add /comps/li/compClass if there are no comps yet. -->
-  <!-- Add /li/compClass to /comps if exists (i.e. other mod already added the comps field first) -->
-  <Operation Class="PatchOperationConditional">
+  <!-- Ensure comps element exists for BaseMechanoid -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[@Name="BaseMechanoid" and not(comps)]</xpath>
+    <value>
+      <comps/>
+    </value>
+  </Operation>
+
+  <!-- Add compClass to comps element of BaseMechanoid -->
+  <Operation Class="PatchOperationAdd">
     <xpath>/Defs/ThingDef[@Name="BaseMechanoid"]/comps</xpath>
-    <nomatch Class="PatchOperationAdd">
-      <xpath>/Defs/ThingDef[@Name="BaseMechanoid"]</xpath>
-      <value>
-        <comps>
-          <li>
-            <compClass>SubcoreInfo.Comps.CompMechInfo</compClass>
-          </li>
-        </comps>
-      </value>
-    </nomatch>
-    <match Class="PatchOperationAdd">
-      <xpath>/Defs/ThingDef[@Name="BaseMechanoid"]/comps</xpath>
-      <value>
-        <li>
-          <compClass>SubcoreInfo.Comps.CompMechInfo</compClass>
-        </li>
-      </value>
-    </match>
+    <value>
+      <li>
+        <compClass>SubcoreInfo.Comps.CompMechInfo</compClass>
+      </li>
+    </value>
   </Operation>
 </Patch>
