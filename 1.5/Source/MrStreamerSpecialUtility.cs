@@ -37,7 +37,7 @@ public static class MrStreamerSpecialUtility
             PawnName = new NameTriple("Grignr", "Grignr", "Grignrson"),
         },
         new CompInfoBase {
-            PawnName = new NameTriple("Dexter", "All", "Feldoh"),
+            PawnName = new NameTriple("Dexter", "Feldoh", "Feldoh"),
         }
     ];
 
