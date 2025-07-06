@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!-- Ensure comps element exists for BaseMechanoid -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[@Name="BaseMechanoid" and not(comps)]</xpath>
+    <value>
+      <comps/>
+    </value>
+  </Operation>
+
+  <!-- Add compClass to comps element of BaseMechanoid -->
+  <Operation Class="PatchOperationAdd">
+    <xpath>/Defs/ThingDef[@Name="BaseMechanoid"]/comps</xpath>
+    <value>
+      <li>
+        <compClass>SubcoreInfo.Comps.CompMechInfo</compClass>
+      </li>
+    </value>
+  </Operation>
+</Patch>
