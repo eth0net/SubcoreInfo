@@ -34,10 +34,16 @@ public static class MrStreamerSpecialUtility
 
     public static List<CompInfoBase> Subcores = [
         new CompInfoBase {
+            TitleName = "Grignr",
             PawnName = new NameTriple("Grignr", "Grignr", "Grignrson"),
+            FactionName = "The Streamers",
+            IdeoName = "The Streamers",
         },
         new CompInfoBase {
+            TitleName = "Feldoh",
             PawnName = new NameTriple("Dexter", "Feldoh", "Feldoh"),
+            FactionName = "The Streamersd ",
+            IdeoName = "The Streamers",
         }
     ];
 

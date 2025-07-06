@@ -33,10 +33,10 @@
 
   <!-- Game assemblies for the detected platform -->
   <ItemGroup Condition="Exists('$(ManagedDir)')">
-    <Reference Include="Assembly-CSharp">
-      <HintPath>$(ManagedDir)/Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
+<!--    <Reference Include="Assembly-CSharp">-->
+<!--      <HintPath>$(ManagedDir)/Assembly-CSharp.dll</HintPath>-->
+<!--      <Private>False</Private>-->
+<!--    </Reference>-->
     <Reference Include="UnityEngine">
       <HintPath>$(ManagedDir)/UnityEngine.dll</HintPath>
       <Private>False</Private>
