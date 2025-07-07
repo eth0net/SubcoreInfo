@@ -38,6 +38,9 @@ public class SubcoreInfo : Mod
         listing.Label("Interface Settings");
         listing.GapLine();
 
+        listing.CheckboxLabeled("Show on blank subcores", ref SubcoreInfoSettings.showBlankSubcores);
+        listing.CheckboxLabeled("Show unknown fields", ref SubcoreInfoSettings.showUnknownFields);
+
         if (ModsConfig.RoyaltyActive)
         {
             listing.CheckboxLabeled("Show pawn title", ref SubcoreInfoSettings.showTitle);

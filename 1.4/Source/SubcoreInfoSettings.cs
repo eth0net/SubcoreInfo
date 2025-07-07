@@ -5,6 +5,16 @@ namespace SubcoreInfo;
 public class SubcoreInfoSettings : ModSettings
 {
     /// <summary>
+    /// Show fields for blank subcores in the subcore info panel.
+    /// </summary>
+    public static bool showBlankSubcores = false;
+
+    /// <summary>
+    /// Show unknown fields in the subcore info panel.
+    /// </summary>
+    public static bool showUnknownFields = false;
+
+    /// <summary>
     /// Show pawn title in the subcore info panel.
     /// </summary>
     public static bool showTitle = true;
@@ -44,6 +54,8 @@ public class SubcoreInfoSettings : ModSettings
     /// </summary>
     public override void ExposeData()
     {
+        Scribe_Values.Look(ref showBlankSubcores, "showBlankSubcores", false);
+        Scribe_Values.Look(ref showUnknownFields, "showUnknownFields", false);
         Scribe_Values.Look(ref showTitle, "showTitle", true);
         Scribe_Values.Look(ref showFullName, "showFullName", true);
         Scribe_Values.Look(ref showFaction, "showFaction", true);

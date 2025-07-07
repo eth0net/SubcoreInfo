@@ -30,6 +30,17 @@ public class CompInfoBase : CompBase
     public string IdeoName;
 
     /// <summary>
+    /// Returns true if all info fields are null or empty.
+    /// </summary>
+    public bool IsBlank => !HasTitle && !HasFullName && !HasShortName && !HasFaction && !HasIdeo;
+
+    public bool HasTitle => !string.IsNullOrEmpty(TitleName);
+    public bool HasFullName => !string.IsNullOrEmpty(PawnName?.ToStringFull);
+    public bool HasShortName => !string.IsNullOrEmpty(PawnName?.ToStringShort);
+    public bool HasFaction => !string.IsNullOrEmpty(FactionName);
+    public bool HasIdeo => !string.IsNullOrEmpty(IdeoName);
+
+    /// <summary>
     /// PostExposeData is used to save our component state.
     /// </summary>
     public override void PostExposeData()
