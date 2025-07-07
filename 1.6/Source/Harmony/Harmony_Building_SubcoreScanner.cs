@@ -38,7 +38,7 @@ internal static class Harmony_Building_SubcoreScanner_Tick
         AccessTools.Method(
             typeof(GenPlace),
             nameof(GenPlace.TryPlaceThing),
-            new Type[] {
+            [
                 typeof(Thing),
                 typeof(IntVec3),
                 typeof(Map),
@@ -46,8 +46,8 @@ internal static class Harmony_Building_SubcoreScanner_Tick
                 typeof(Action<Thing, int>),
                 typeof(Predicate<IntVec3>),
                 typeof(Rot4?), // nullable Rot4
-                typeof(int)    // squareRadius
-            }
+                typeof(int) // squareRadius
+            ]
         ),
         AccessTools.Method(typeof(Harmony_Building_SubcoreScanner_Tick), nameof(TryUpdateAndPlaceSubcore))
     );
@@ -59,9 +59,15 @@ internal static class Harmony_Building_SubcoreScanner_Tick
     /// <param name="center"></param>
     /// <param name="map"></param>
     /// <param name="mode"></param>
+    /// <param name="placedAction"></param>
+    /// <param name="nearPlaceValidator"></param>
+    /// <param name="rot"></param>
+    /// <param name="squareRadius"></param>
     /// <returns></returns>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "We don't need the parameters, but we need to align with the original we're replacing")]
-    static bool TryUpdateAndPlaceSubcore(
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Style", "IDE0060:Remove unused parameter", Justification = "We don't need the parameters, but we need to align with the original we're replacing"
+    )]
+    private static bool TryUpdateAndPlaceSubcore(
         Thing thing,
         IntVec3 center,
         Map map,
@@ -69,7 +75,8 @@ internal static class Harmony_Building_SubcoreScanner_Tick
         Action<Thing, int> placedAction = null,
         Predicate<IntVec3> nearPlaceValidator = null,
         Rot4? rot = null,
-        int squareRadius = 1)
+        int squareRadius = 1
+    )
     {
         ThingDef scannerDef = thing.def.defName switch
         {

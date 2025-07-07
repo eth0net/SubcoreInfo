@@ -26,7 +26,7 @@ internal static class Harmony_Building_SubcoreScanner_TryAcceptPawn
 /// <summary>
 /// Harmony_Building_SubcoreScanner_Tick patches subcore scanners to use our component during ticks.
 /// </summary>
-[HarmonyPatch(typeof(Building_SubcoreScanner), nameof(Building_SubcoreScanner.Tick))]
+[HarmonyPatch(typeof(Building_SubcoreScanner), "Tick")]
 internal static class Harmony_Building_SubcoreScanner_Tick
 {
     /// <summary>
@@ -35,7 +35,19 @@ internal static class Harmony_Building_SubcoreScanner_Tick
     /// <param name="instructions"></param>
     /// <returns></returns>
     internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) => instructions.MethodReplacer(
-        AccessTools.Method(typeof(GenPlace), nameof(GenPlace.TryPlaceThing), new Type[] { typeof(Thing), typeof(IntVec3), typeof(Map), typeof(ThingPlaceMode), typeof(Action<Thing, int>), typeof(Predicate<IntVec3>), typeof(Rot4) }),
+        AccessTools.Method(
+            typeof(GenPlace),
+            nameof(GenPlace.TryPlaceThing),
+            [
+                typeof(Thing),
+                typeof(IntVec3),
+                typeof(Map),
+                typeof(ThingPlaceMode),
+                typeof(Action<Thing, int>),
+                typeof(Predicate<IntVec3>),
+                typeof(Rot4)
+            ]
+        ),
         AccessTools.Method(typeof(Harmony_Building_SubcoreScanner_Tick), nameof(TryUpdateAndPlaceSubcore))
     );
 
@@ -50,7 +62,18 @@ internal static class Harmony_Building_SubcoreScanner_Tick
     /// <param name="nearPlaceValidator"></param>
     /// <param name="rot"></param>
     /// <returns></returns>
-    static bool TryUpdateAndPlaceSubcore(Thing thing, IntVec3 center, Map map, ThingPlaceMode mode, Action<Thing, int> placedAction = null, Predicate<IntVec3> nearPlaceValidator = null, Rot4 rot = default(Rot4))
+    [System.Diagnostics.CodeAnalysis.SuppressMessage(
+        "Style", "IDE0060:Remove unused parameter", Justification = "We don't need the parameters, but we need to align with the original we're replacing"
+    )]
+    private static bool TryUpdateAndPlaceSubcore(
+        Thing thing,
+        IntVec3 center,
+        Map map,
+        ThingPlaceMode mode,
+        Action<Thing, int> placedAction = null,
+        Predicate<IntVec3> nearPlaceValidator = null,
+        Rot4 rot = default(Rot4)
+    )
     {
         ThingDef scannerDef = thing.def.defName switch
         {
@@ -65,6 +88,6 @@ internal static class Harmony_Building_SubcoreScanner_Tick
             SubcoreInfoUtility.CopySubcoreInfo(scanner as ThingWithComps, thing as ThingWithComps);
         }
 
-        return GenPlace.TryPlaceThing(thing, center, map, mode);
+        return GenPlace.TryPlaceThing(thing, center, map, mode, placedAction, nearPlaceValidator, rot);
     }
 }

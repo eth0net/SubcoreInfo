@@ -18,22 +18,16 @@ internal static class Harmony_Pawn_Kill
     /// <param name="__instance"></param>
     internal static void Prefix(Pawn __instance)
     {
-        if (__instance == null || !__instance.IsColonyMech)
-        {
+        if (__instance is not { IsColonyMech: true })
             return;
-        }
 
         CompMechInfo mechComp = __instance.GetComp<CompMechInfo>();
-        if (mechComp == null || !mechComp.Disassembling)
-        {
+        if (mechComp is not { Disassembling: true })
             return;
-        }
 
         Thing subcore = TryGetSubcore(__instance);
         if (subcore == null)
-        {
             return;
-        }
 
         SubcoreInfoUtility.CopySubcoreInfo(__instance, subcore as ThingWithComps);
     }
@@ -41,15 +35,28 @@ internal static class Harmony_Pawn_Kill
     /// <summary>
     /// Try to find the subcore dropped during disassembly and return it.
     /// </summary>
-    /// <param name="scanner"></param>
+    /// <param name="mech"></param>
     /// <returns></returns>
-    static Thing TryGetSubcore(Pawn mech)
+    private static Thing TryGetSubcore(Pawn mech)
     {
-        ThingDefCountClass subcoreClass = MechanitorUtility.IngredientsFromDisassembly(mech.def).FirstOrDefault((ThingDefCountClass thing) => thing.thingDef.defName == "SubcoreRegular" || thing.thingDef.defName == "SubcoreHigh");
+        ThingDefCountClass subcoreClass = MechanitorUtility.IngredientsFromDisassembly(mech.def)
+            .FirstOrDefault(thing => thing.thingDef.defName is "SubcoreRegular" or "SubcoreHigh");
         if (subcoreClass == null)
-        {
             return null;
-        }
+
+        return GenClosest.ClosestThingReachable(
+            mech.Position,
+            mech.Map,
+            ThingRequest.ForDef(
+                subcoreClass.thingDef
+            ),
+            PathEndMode.ClosestTouch,
+            TraverseParms.For(
+                TraverseMode.ByPawn
+            ),
+            9999,
+            validator
+        );
 
         static bool validator(Thing subcore)
         {
@@ -58,9 +65,8 @@ internal static class Harmony_Pawn_Kill
             {
                 return false;
             }
+
             return comp.PawnName == null && comp.TitleName == null && comp.FactionName == null;
         }
-
-        return GenClosest.ClosestThingReachable(mech.Position, mech.Map, ThingRequest.ForDef(subcoreClass.thingDef), PathEndMode.ClosestTouch, TraverseParms.For(TraverseMode.ByPawn), 9999, validator);
     }
 }

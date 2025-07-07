@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using RimWorld;
-using UnityEngine;
 using Verse;
 
 namespace SubcoreInfo.Comps;
@@ -11,14 +10,11 @@ namespace SubcoreInfo.Comps;
 /// </summary>
 public class CompDisplayInfo : CompInfoBase
 {
-    private static readonly TaggedString textTitle = "Title".Translate();
-    private static readonly TaggedString textName = "Name".Translate();
-    private static readonly TaggedString textFaction = "Faction".Translate();
-    private static readonly TaggedString textIdeo = "Ideoligion".Translate();
-    private static readonly TaggedString textUnknown = "Unknown".Translate();
-
-    private CompInfoBase specialComp;
-    private float lastTime;
+    private static readonly TaggedString TextTitle = "Title".Translate();
+    private static readonly TaggedString TextName = "Name".Translate();
+    private static readonly TaggedString TextFaction = "Faction".Translate();
+    private static readonly TaggedString TextIdeo = "Ideoligion".Translate();
+    private static readonly TaggedString TextUnknown = "Unknown".Translate();
 
     /// <summary>
     ///     CompInspectStringExtra adds to the item inspection pane.
@@ -26,28 +22,19 @@ public class CompDisplayInfo : CompInfoBase
     /// <returns></returns>
     public override string CompInspectStringExtra()
     {
-        UpdateSpecialComp();
-
-        var comp = specialComp ?? this;
-
+        CompInfoBase comp = MrStreamerSpecialUtility.GetDisplayComp(this);
         StringBuilder sb = new();
-
         if (SubcoreInfoSettings.showTitle && ModsConfig.RoyaltyActive)
-            sb.AppendLine(textTitle + ": " + (comp.TitleName ?? textUnknown));
-
+            sb.AppendLine(TextTitle + ": " + (comp.TitleName ?? TextUnknown));
         if (SubcoreInfoSettings.showFullName)
-            sb.AppendLine(textName + ": " + (comp.PawnName?.ToStringFull ?? textUnknown));
+            sb.AppendLine(TextName + ": " + (comp.PawnName?.ToStringFull ?? TextUnknown));
         else
-            sb.AppendLine(textName + ": " + (comp.PawnName?.ToStringShort ?? textUnknown));
-
-        if (SubcoreInfoSettings.showFaction) sb.AppendLine(textFaction + ": " + (comp.FactionName ?? textUnknown));
-
+            sb.AppendLine(TextName + ": " + (comp.PawnName?.ToStringShort ?? TextUnknown));
+        if (SubcoreInfoSettings.showFaction) sb.AppendLine(TextFaction + ": " + (comp.FactionName ?? TextUnknown));
         if (SubcoreInfoSettings.showIdeo && ModsConfig.IdeologyActive)
-            sb.AppendLine(textIdeo + ": " + (comp.IdeoName ?? textUnknown));
-
+            sb.AppendLine(TextIdeo + ": " + (comp.IdeoName ?? TextUnknown));
         return sb.ToString().TrimEnd();
     }
-
 
     /// <summary>
     ///     SpecialDisplayStats adds to the item info pane.
@@ -55,43 +42,24 @@ public class CompDisplayInfo : CompInfoBase
     /// <returns></returns>
     public override IEnumerable<StatDrawEntry> SpecialDisplayStats()
     {
-        UpdateSpecialComp();
-
-        var comp = specialComp ?? this;
-
+        CompInfoBase comp = MrStreamerSpecialUtility.GetDisplayComp(this);
         if (ModsConfig.RoyaltyActive)
             yield return new StatDrawEntry(
-                StatCategoryDefOf.SubcoreInfo, textTitle, comp.TitleName ?? textUnknown,
+                StatCategoryDefOf.SubcoreInfo, TextTitle, comp.TitleName ?? TextUnknown,
                 "The title of the pawn scanned to make this subcore.", 403
             );
-
         yield return new StatDrawEntry(
-            StatCategoryDefOf.SubcoreInfo, textName, comp.PawnName?.ToStringFull ?? textUnknown,
+            StatCategoryDefOf.SubcoreInfo, TextName, comp.PawnName?.ToStringFull ?? TextUnknown,
             "The full name of the pawn scanned to make this subcore.", 402
         );
-
         yield return new StatDrawEntry(
-            StatCategoryDefOf.SubcoreInfo, textFaction, comp.FactionName ?? textUnknown,
+            StatCategoryDefOf.SubcoreInfo, TextFaction, comp.FactionName ?? TextUnknown,
             "The faction of the pawn scanned to make this subcore.", 401
         );
-
         if (ModsConfig.IdeologyActive)
             yield return new StatDrawEntry(
-                StatCategoryDefOf.SubcoreInfo, textIdeo, comp.IdeoName ?? textUnknown,
+                StatCategoryDefOf.SubcoreInfo, TextIdeo, comp.IdeoName ?? TextUnknown,
                 "The ideoligion of the pawn scanned to make this subcore.", 400
             );
-    }
-
-    private void UpdateSpecialComp()
-    {
-        if (MrStreamerSpecialUtility.Enabled && Time.time - lastTime > 10)
-        {
-            specialComp = specialComp == null && Rand.Bool ? MrStreamerSpecialUtility.RandomSubcore : null;
-            lastTime = Time.time;
-        }
-        else if (!MrStreamerSpecialUtility.Enabled)
-        {
-            specialComp = null;
-        }
     }
 }

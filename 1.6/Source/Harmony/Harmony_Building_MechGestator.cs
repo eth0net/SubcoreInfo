@@ -31,7 +31,7 @@ internal static class Harmony_Building_MechGestator_Notify_FormingCompleted
     /// </summary>
     /// <param name="owner"></param>
     /// <param name="mode"></param>
-    static void UpdateThenClearAndDestroyContents(ThingOwner owner, DestroyMode mode = DestroyMode.Vanish)
+    private static void UpdateThenClearAndDestroyContents(ThingOwner owner, DestroyMode mode = DestroyMode.Vanish)
     {
         Thing subcore = owner.FirstOrDefault(HasCompSubcoreInfo);
 
@@ -50,12 +50,12 @@ internal static class Harmony_Building_MechGestator_Notify_FormingCompleted
     /// <param name="thing"></param>
     /// <param name="canMergeWithExistingStacks"></param>
     /// <returns></returns>
-    static bool TryUpdateAndAddPawn(ThingOwner owner, Thing thing, bool canMergeWithExistingStacks = true)
+    private static bool TryUpdateAndAddPawn(ThingOwner owner, Thing thing, bool canMergeWithExistingStacks = true)
     {
         SubcoreInfoUtility.CopySubcoreInfo(owner.Owner as ThingWithComps, thing as ThingWithComps);
 
         return owner.TryAdd(thing, canMergeWithExistingStacks);
     }
 
-    static bool HasCompSubcoreInfo(Thing thing) => thing?.TryGetComp<CompSubcoreInfo>() != null;
+    private static bool HasCompSubcoreInfo(Thing thing) => thing?.TryGetComp<CompSubcoreInfo>() != null;
 }

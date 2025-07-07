@@ -35,6 +35,11 @@ public class SubcoreInfoSettings : ModSettings
     public static bool randomTraderInfo = true;
 
     /// <summary>
+    /// Enable the Mr Streamer Special mode.
+    /// </summary>
+    public static bool mrStreamerSpecial = false;
+
+    /// <summary>
     /// ExposeData saves and loads the settings.
     /// </summary>
     public override void ExposeData()
@@ -45,6 +50,7 @@ public class SubcoreInfoSettings : ModSettings
         Scribe_Values.Look(ref showIdeo, "showIdeo", true);
         Scribe_Values.Look(ref separateStacks, "separateStacks", true);
         Scribe_Values.Look(ref randomTraderInfo, "randomTraderInfo", true);
+        Scribe_Values.Look(ref mrStreamerSpecial, "mrStreamerSpecial", false);
         base.ExposeData();
     }
 }

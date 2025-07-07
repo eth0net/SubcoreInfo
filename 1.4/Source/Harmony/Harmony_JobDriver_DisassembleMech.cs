@@ -18,17 +18,10 @@ internal static class Harmony_JobDriver_DisassembleMech_MakeNewToils
     /// <param name="__instance"></param>
     internal static void Prefix(JobDriver_DisassembleMech __instance)
     {
-        Pawn mech = (Pawn)__instance.job.GetTarget(TargetIndex.A).Thing;
-        if (mech == null)
-        {
-            return;
-        }
+        Pawn mech = (Pawn) __instance.job.GetTarget(TargetIndex.A).Thing;
 
-        CompMechInfo mechComp = mech.GetComp<CompMechInfo>();
-        if (mechComp == null)
-        {
-            return;
-        }
+        CompMechInfo mechComp = mech?.GetComp<CompMechInfo>();
+        if (mechComp == null) return;
 
         mechComp.Disassembling = true;
     }
