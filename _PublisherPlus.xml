@@ -1,10 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Configuration>
   <Excluded>
+    <exclude>.editorconfig</exclude>
     <exclude>.git</exclude>
+    <exclude>.idea</exclude>
     <exclude>1.4\Source</exclude>
     <exclude>1.5\Source</exclude>
+    <exclude>1.6\Source</exclude>
     <exclude>Images</exclude>
-    <exclude>SubcoreInfo.textstudio</exclude>
+    <exclude>*.textstudio</exclude>
+    <exclude>*.zip</exclude>
   </Excluded>
 </Configuration>
