@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Patch>
-  <!-- Ensure comps element exists for MechGestatorBase -->
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/ThingDef[@Name="MechGestatorBase" and not(comps)]</xpath>
-    <value>
-      <comps/>
-    </value>
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>/Defs/ThingDef[@Name="MechGestatorBase"]/comps</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[@Name="MechGestatorBase"]</xpath>
+      <value>
+        <comps>
+          <li>
+            <compClass>SubcoreInfo.Comps.CompInfoBase</compClass>
+          </li>
+        </comps>
+      </value>
+    </nomatch>
+    <match Class="PatchOperationAdd">
+      <xpath>/Defs/ThingDef[@Name="MechGestatorBase"]/comps</xpath>
+      <value>
+        <li>
+          <compClass>SubcoreInfo.Comps.CompInfoBase</compClass>
+        </li>
+      </value>
+    </match>
   </Operation>
 
-  <!-- Add compClass to comps element of MechGestatorBase -->
-  <Operation Class="PatchOperationAdd">
-    <xpath>/Defs/ThingDef[@Name="MechGestatorBase"]/comps</xpath>
-    <value>
-      <li>
-        <compClass>SubcoreInfo.Comps.CompInfoBase</compClass>
-      </li>
-    </value>
-  </Operation>
 </Patch>
