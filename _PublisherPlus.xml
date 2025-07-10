@@ -8,7 +8,8 @@
     <exclude>1.5\Source</exclude>
     <exclude>1.6\Source</exclude>
     <exclude>Images</exclude>
-    <exclude>*.textstudio</exclude>
-    <exclude>*.zip</exclude>
+    <exclude>SubcoreInfo.textstudio</exclude>
+    <exclude>SubcoreInfo-Release.zip</exclude>
+    <exclude>SubcoreInfo-Source.zip</exclude>
   </Excluded>
 </Configuration>
