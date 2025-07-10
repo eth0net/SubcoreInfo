@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using Verse;
 
 namespace SubcoreInfo.Harmony
 {
@@ -8,9 +9,10 @@ namespace SubcoreInfo.Harmony
     {
         private static bool wasOpen = false;
 
-        public static void Prefix(MainTabWindow_Inspect __instance)
+        public static void Prefix(MainTabWindow_Inspect __instance, Thing ___lastSelectedThing)
         {
             bool isOpen = __instance.AnythingSelected && __instance.ShouldShowPaneContents;
+            Thing selectedThing = Find.Selector.SingleSelectedThing;
             if (!isOpen && wasOpen)
             {
                 MrStreamerSpecialUtility.NotifyInspectPaneClosed();
@@ -20,6 +22,10 @@ namespace SubcoreInfo.Harmony
             {
                 MrStreamerSpecialUtility.NotifyInspectPaneOpened();
                 wasOpen = true;
+            } else if (___lastSelectedThing != selectedThing)
+            {
+                MrStreamerSpecialUtility.NotifyInspectPaneClosed();
+                MrStreamerSpecialUtility.NotifyInspectPaneOpened();
             }
         }
     }
