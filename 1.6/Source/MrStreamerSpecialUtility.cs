@@ -43,19 +43,30 @@ public static class MrStreamerSpecialUtility
                 "Grignr",
                 "Grignrson"
             ),
-            FactionName = "The Streamers",
-            IdeoName = "The Streamers",
+            FactionName = "Mr Streamers Creamers",
+            IdeoName = "Mr Streamers Creamers",
         },
         new()
         {
-            TitleName = "Feldoh",
+            TitleName = "Dexter-Feldoh III",
             PawnName = new NameTriple(
                 "Dexter",
                 "Feldoh",
                 "Feldoh"
             ),
-            FactionName = "The Streamers",
-            IdeoName = "The Streamers",
+            FactionName = "Mr Streamers Creamers",
+            IdeoName = "Mr Streamers Creamers",
+        },
+        new()
+        {
+            TitleName = "The Blamed",
+            PawnName = new NameTriple(
+                "Keyz",
+                "Keyz",
+                "The Blamed"
+            ),
+            FactionName = "Mr Streamers Creamers",
+            IdeoName = "Mr Streamers Creamers",
         }
     ];
 
